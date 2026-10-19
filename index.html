@@ -752,9 +752,9 @@
   }
 
   function syncCard() {
-    var h = '<div class="sync"><h3>Sincronizar en la nube (opcional)</h3>';
+    var h = '<div class="sync"><h3>Sincronizar en la nube</h3>';
     if (!cloud.cfg) {
-      h += '<p class="muted">Aún no está activada. Tu progreso se guarda solo en este móvil. Para activarla sigue los pasos del archivo LEEME.md.</p>';
+      h += '<p class="muted">Aún no está activada: falta pegar la configuración de tu proyecto de Firebase en el archivo firebase-config.js (mira LEEME.md). Mientras tanto, tu progreso se guarda en este móvil.</p>';
     } else if (cloud.user) {
       h += '<p>Sesión iniciada con <b>' + esc(cloud.user.email || '') + '</b>.</p>' +
            '<button class="btn" id="s-now">Sincronizar ahora</button>' +
@@ -767,6 +767,11 @@
            '<button class="btn ghost" id="s-signup">Crear cuenta nueva</button>' +
            '<button class="btn ghost" id="s-forgot">Olvidé mi contraseña</button>';
     }
+    h += '<h3 style="margin-top:24px">Copia de seguridad en archivo</h3>' +
+         '<p class="muted">Descarga tu progreso en un archivo y cárgalo cuando quieras, en este u otro dispositivo.</p>' +
+         '<button class="btn ghost" id="b-export">Descargar mi progreso</button>' +
+         '<button class="btn ghost" id="b-import">Cargar un archivo de progreso</button>' +
+         '<input type="file" id="b-file" accept=".json,application/json" hidden>';
     return h + '<p class="sync-msg" id="s-msg">' + esc(cloud.msg || '') + '</p></div>';
   }
 
@@ -802,6 +807,46 @@
   document.addEventListener('keydown', function (e) {
     if (e.key === 'Enter' && e.target && e.target.id === 's-pass') { doAuth('login'); }
   });
+  /* ---------- Copia de seguridad en archivo ---------- */
+  function exportProgress() {
+    var data = { app: APP.id, version: 1, exportedAt: new Date().toISOString(),
+                 state: { cur: state.cur, best: state.best, passed: state.passed, known: state.known,
+                          epoch: state.epoch || 0, updatedAt: state.updatedAt || Date.now() } };
+    try {
+      var blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
+      var a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = APP.id + '-progreso.json';
+      document.body.appendChild(a); a.click();
+      setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+      setMsg('Archivo descargado ✓', 'ok');
+    } catch (e) { setMsg('No se pudo crear el archivo.', 'bad'); }
+  }
+  function importProgress(file) {
+    if (!file) return;
+    var r = new FileReader();
+    r.onload = function () {
+      try {
+        var d = JSON.parse(r.result);
+        if (!d || d.app !== APP.id || !d.state) { setMsg('Ese archivo no es de esta app.', 'bad'); return; }
+        var m = d.state;
+        applyState({ cur: m.cur || 0, best: m.best || {}, passed: m.passed || {}, known: m.known || {},
+                     epoch: m.epoch || 0, updatedAt: Date.now() });
+        setMsg('Progreso cargado ✓', 'ok');
+      } catch (e) { setMsg('No se pudo leer el archivo.', 'bad'); }
+    };
+    r.readAsText(file);
+  }
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    if (!t || !t.closest) return;
+    if (t.closest('#b-export')) { exportProgress(); return; }
+    if (t.closest('#b-import')) { var f = $('b-file'); if (f) f.click(); return; }
+  });
+  document.addEventListener('change', function (e) {
+    if (e.target && e.target.id === 'b-file') { importProgress(e.target.files && e.target.files[0]); e.target.value = ''; }
+  });
+
   document.addEventListener('visibilitychange', function () { if (!document.hidden && cloud.user) pull(); });
   window.addEventListener('online', initCloud);
 

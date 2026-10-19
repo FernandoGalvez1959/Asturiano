@@ -1,4 +1,4 @@
-var C = "asturiano-a1-v3";
+var C = "asturiano-a1-v5";
 var F = ["./", "./index.html", "./lessons.js", "./firebase-config.js", "./manifest.webmanifest", "./icon.svg", "./icon-192.png", "./icon-512.png"];
 self.addEventListener("install", function(e){
   e.waitUntil(caches.open(C).then(function(c){
