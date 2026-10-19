@@ -1,354 +1,821 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#123C6B">
-<meta name="color-scheme" content="light">
-<meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Asturianu A1">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Asturianu Básico A1">
 <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="icon-192.png">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>Asturianu Básico A1</title>
 <style>
-:root{
-  --blue:#123C6B; --blue2:#1D5A9E; --gold:#E2A82B; --green:#2F6B4F; --greenbg:#E1F1E8;
-  --red:#A63A2B; --redbg:#FBE4DF; --bg:#F1F5F8; --card:#FFFFFF; --ink:#1B2733; --mute:#52606D; --line:#CBD5DE;
-}
-*{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:19px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
-.wrap{max-width:640px;margin:0 auto;padding:0 16px 48px}
-h1,h2,h3{font-family:Georgia,"Times New Roman",serif;line-height:1.2;margin:0}
-header.top{background:var(--blue);color:#fff;padding:22px 16px 20px;margin:0 -16px 20px}
-header.top .in{max-width:640px;margin:0 auto;display:flex;gap:16px;align-items:center}
-header.top svg{width:56px;height:56px;flex:none}
-header.top h1{font-size:30px}
-header.top p{margin:4px 0 0;color:#D6E3F2;font-size:17px}
-.bar{height:12px;background:#0B2A4C;border-radius:8px;overflow:hidden;margin-top:14px}
-.bar i{display:block;height:100%;background:var(--gold);border-radius:8px}
-.lesson-card{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--card);border:2px solid var(--line);
-  border-radius:16px;padding:14px 16px;margin:0 0 12px;font:inherit;color:inherit;min-height:76px;cursor:pointer}
-.lesson-card:focus-visible,.btn:focus-visible,.opt:focus-visible{outline:4px solid var(--gold);outline-offset:2px}
-.lesson-card .n{flex:none;width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font:700 22px Georgia,serif}
-.lesson-card.done .n{background:var(--green)}
-.lesson-card .t{font:700 21px/1.25 Georgia,serif}
-.lesson-card .s{font-size:16px;color:var(--mute);margin-top:2px}
-.lesson-card.done{border-color:var(--green)}
-.btn{display:block;width:100%;min-height:56px;border:0;border-radius:14px;background:var(--blue2);color:#fff;font:600 20px system-ui,sans-serif;padding:12px 18px;margin:12px 0;cursor:pointer;text-align:center}
-.btn.alt{background:#fff;color:var(--blue);border:2px solid var(--blue)}
-.btn.gold{background:var(--gold);color:#241a00}
-.btn.small{min-height:44px;font-size:16px;font-weight:500;background:transparent;color:var(--mute);border:1px solid var(--line)}
-.back{background:none;border:0;color:var(--blue2);font:600 18px system-ui,sans-serif;padding:14px 0;cursor:pointer;min-height:48px}
-h2.lt{font-size:28px;margin:4px 0 6px}
-.intro{margin:0 0 8px}
-h3{font-size:22px;margin:28px 0 10px;color:var(--blue)}
-.vocab{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:4px 16px}
-.vocab .r{padding:12px 0;border-bottom:1px solid #E3E9EE}
-.vocab .r:last-child{border-bottom:0}
-.vocab .a{font:700 23px/1.25 Georgia,serif;color:var(--blue)}
-.vocab .e{font-size:17px;color:var(--mute)}
-table.t{width:100%;border-collapse:collapse;background:var(--card);border:2px solid var(--line);border-radius:12px;overflow:hidden;margin:10px 0}
-table.t caption{text-align:left;font:700 20px Georgia,serif;padding:4px 0 8px;color:var(--ink)}
-table.t td{padding:10px 14px;border-top:1px solid #E3E9EE;font-size:20px}
-table.t td:last-child{font-weight:700;color:var(--blue)}
-.ex{background:var(--card);border-left:6px solid var(--gold);border-radius:6px;padding:10px 14px;margin:0 0 10px}
-.ex b{font:700 21px Georgia,serif;color:var(--blue);display:block}
-.ex span{color:var(--mute);font-size:17px}
-ul.tips{margin:0;padding-left:22px}
-ul.tips li{margin:0 0 10px}
-.note{background:#FFF6DD;border:2px solid #F0D58A;border-radius:14px;padding:12px 16px;margin-top:14px}
-.qhead{display:flex;justify-content:space-between;color:var(--mute);font-size:17px;margin:6px 0 12px}
-.q{font:700 25px/1.3 Georgia,serif;margin:0 0 16px}
-.opt{display:block;width:100%;text-align:left;min-height:60px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:12px 16px;margin:0 0 12px;font:600 22px system-ui,sans-serif;color:var(--ink);cursor:pointer}
-.opt.ok{background:var(--greenbg);border-color:var(--green)}
-.opt.bad{background:var(--redbg);border-color:var(--red)}
-.opt[disabled]{cursor:default}
-.fb{border-radius:14px;padding:12px 16px;margin:6px 0;font-size:19px}
-.fb.ok{background:var(--greenbg);color:#173D2B}
-.fb.bad{background:var(--redbg);color:#5A1E15}
-.score{font:700 54px Georgia,serif;color:var(--blue);text-align:center;margin:20px 0 4px}
-.center{text-align:center}
-.foot{margin-top:28px}
+  :root {
+    --bg: #F2F6F8;
+    --surface: #FFFFFF;
+    --ink: #10222B;
+    --muted: #4A5E68;
+    --line: #CFDBE1;
+    --sea: #123C6B;
+    --sea-ink: #FFFFFF;
+    --sun: #FBD56B;
+    --sun-ink: #3A2B00;
+    --ok: #17794A;
+    --ok-bg: #DDF3E6;
+    --bad: #A3262B;
+    --bad-bg: #FBE3E2;
+    --serif: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+    --sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0D1A20;
+      --surface: #16282F;
+      --ink: #EAF2F5;
+      --muted: #A5B8C0;
+      --line: #2C434D;
+      --sea: #5CC5CF;
+      --sea-ink: #04242A;
+      --sun: #F4C94F;
+      --sun-ink: #2B1F00;
+      --ok: #7FE0AB;
+      --ok-bg: #12382A;
+      --bad: #FF9C9C;
+      --bad-bg: #3F1D1F;
+    }
+  }
+  * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { margin: 0; background: var(--bg); color: var(--ink); }
+  body {
+    font-family: var(--sans);
+    font-size: 19px;
+    line-height: 1.5;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px));
+    min-height: 100vh;
+  }
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px 8px;
+    max-width: 640px; margin: 0 auto;
+  }
+  header h1 { font-family: var(--serif); font-size: 22px; margin: 0; letter-spacing: .2px; }
+  .chip {
+    background: var(--sun); color: var(--sun-ink);
+    border-radius: 999px; padding: 6px 14px; font-size: 16px; font-weight: 700;
+  }
+  main { max-width: 640px; margin: 0 auto; padding: 8px 20px 24px; }
+  section[hidden] { display: none; }
+  h2 { font-family: var(--serif); font-size: 28px; line-height: 1.2; margin: 12px 0 8px; }
+  h3 { font-size: 20px; margin: 22px 0 8px; }
+  p { margin: 8px 0; }
+  .muted { color: var(--muted); }
+
+  .hero {
+    background: var(--sea); color: var(--sea-ink);
+    border-radius: 22px; padding: 26px 22px; margin: 12px 0 18px;
+    text-align: left; width: 100%; border: 0; cursor: pointer; font: inherit;
+  }
+  .hero .en { font-family: var(--serif); font-size: 54px; line-height: 1.05; font-weight: 700; display: block; }
+  .hero.long .en { font-size: 34px; line-height: 1.15; }
+  .hero .pron { display: inline-block; margin-top: 10px; background: var(--sun); color: var(--sun-ink); padding: 4px 12px; border-radius: 10px; font-weight: 700; font-size: 22px; }
+  .hero .es { display: block; margin-top: 10px; font-size: 21px; opacity: .95; }
+  .hero .hint { display: block; margin-top: 12px; font-size: 16px; opacity: .85; }
+
+  .row {
+    display: flex; align-items: center; gap: 12px;
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 16px; padding: 14px 16px; margin: 10px 0;
+  }
+  .row .txt { flex: 1; min-width: 0; }
+  .row .en { font-family: var(--serif); font-size: 25px; font-weight: 700; line-height: 1.15; }
+  .row .pron { color: var(--sea); font-weight: 700; font-size: 18px; }
+  .row .es { color: var(--muted); font-size: 18px; }
+
+  button { font: inherit; cursor: pointer; }
+  .icon-btn {
+    width: 54px; height: 54px; border-radius: 50%; border: 2px solid var(--sea);
+    background: transparent; color: var(--sea); font-size: 25px; flex: none;
+    display: grid; place-items: center; padding: 0;
+  }
+  .icon-btn:active { background: var(--sea); color: var(--sea-ink); }
+  .btn {
+    display: block; width: 100%; min-height: 58px; padding: 14px 18px;
+    border-radius: 16px; border: 2px solid var(--sea);
+    background: var(--sea); color: var(--sea-ink); font-weight: 700; font-size: 20px;
+    margin: 12px 0;
+  }
+  .btn.ghost { background: transparent; color: var(--sea); }
+  .btn[disabled] { opacity: .45; cursor: default; }
+
+  .tip {
+    background: var(--surface); border-left: 6px solid var(--sun);
+    border-radius: 12px; padding: 14px 16px; margin: 14px 0;
+  }
+  .tip b { font-family: var(--serif); }
+
+  .dialog { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 8px 16px 4px; margin: 12px 0; }
+  .dialog h4 { margin: 8px 0 4px; font-size: 18px; color: var(--muted); font-weight: 600; }
+  .dline { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-top: 1px solid var(--line); }
+  .dline:first-of-type { border-top: 0; }
+  .dline .who {
+    width: 30px; height: 30px; border-radius: 50%; flex: none; display: grid; place-items: center;
+    font-weight: 700; font-size: 15px; background: var(--sun); color: var(--sun-ink);
+  }
+  .dline .who.b { background: var(--sea); color: var(--sea-ink); }
+  .dline .txt { flex: 1; min-width: 0; }
+  .dline .en { font-family: var(--serif); font-size: 21px; font-weight: 700; line-height: 1.2; }
+  .dline .es { color: var(--muted); font-size: 16px; }
+  .dline .icon-btn { width: 44px; height: 44px; font-size: 20px; }
+
+  .card {
+    width: 100%; min-height: 280px; border-radius: 24px; border: 2px solid var(--sea);
+    background: var(--surface); color: var(--ink);
+    padding: 26px 22px; text-align: center; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 10px; margin: 12px 0;
+  }
+  .card .big { font-family: var(--serif); font-size: 38px; font-weight: 700; line-height: 1.15; }
+  .card .big.long { font-size: 28px; }
+  .card .pron { background: var(--sun); color: var(--sun-ink); padding: 4px 14px; border-radius: 10px; font-weight: 700; font-size: 22px; }
+  .card .small { color: var(--muted); font-size: 17px; }
+  .counter { text-align: center; color: var(--muted); font-size: 17px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .bar { height: 12px; background: var(--line); border-radius: 999px; overflow: hidden; margin: 10px 0 16px; }
+  .bar > i { display: block; height: 100%; background: var(--sea); transition: width .25s; }
+  .q { font-family: var(--serif); font-size: 27px; line-height: 1.25; margin: 6px 0 14px; }
+  .opt {
+    display: block; width: 100%; text-align: left; min-height: 60px;
+    background: var(--surface); color: var(--ink); border: 2px solid var(--line);
+    border-radius: 16px; padding: 14px 18px; margin: 10px 0; font-size: 21px;
+  }
+  .opt.ok { border-color: var(--ok); background: var(--ok-bg); color: var(--ok); font-weight: 700; }
+  .opt.bad { border-color: var(--bad); background: var(--bad-bg); color: var(--bad); }
+  input[type=text], input[type=email], input[type=password] {
+    width: 100%; min-height: 60px; font: inherit; font-size: 24px; padding: 12px 16px;
+    border: 2px solid var(--line); border-radius: 16px; background: var(--surface); color: var(--ink);
+  }
+  input[type=text]:focus, input[type=email]:focus, input[type=password]:focus { outline: 3px solid var(--sun); border-color: var(--sea); }
+  .answer-area {
+    min-height: 70px; border: 2px dashed var(--line); border-radius: 16px;
+    padding: 10px; display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-bottom: 14px;
+  }
+  .tile {
+    background: var(--surface); color: var(--ink); border: 2px solid var(--sea);
+    border-radius: 12px; padding: 10px 16px; font-size: 22px; font-family: var(--serif); font-weight: 700;
+  }
+  .tile.used { opacity: .25; pointer-events: none; }
+  .tiles { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .feedback { border-radius: 16px; padding: 14px 16px; margin: 12px 0; font-size: 20px; }
+  .feedback.ok { background: var(--ok-bg); color: var(--ok); }
+  .feedback.bad { background: var(--bad-bg); color: var(--bad); }
+  .feedback b { font-family: var(--serif); font-size: 22px; }
+  .score { font-family: var(--serif); font-size: 64px; font-weight: 700; text-align: center; margin: 10px 0 0; }
+
+  .lesson-item {
+    display: flex; align-items: center; gap: 14px; width: 100%; text-align: left;
+    background: var(--surface); color: var(--ink); border: 1px solid var(--line);
+    border-radius: 16px; padding: 14px 16px; margin: 10px 0;
+  }
+  .lesson-item .n {
+    width: 42px; height: 42px; flex: none; border-radius: 50%; display: grid; place-items: center;
+    background: var(--sea); color: var(--sea-ink); font-weight: 700;
+  }
+  .lesson-item.current { border: 2px solid var(--sea); }
+  .lesson-item.locked { opacity: .6; cursor: default; }
+  .lesson-item.locked .n { background: var(--line); color: var(--muted); }
+  .lesson-item .state { font-size: 16px; color: var(--muted); }
+  .lesson-item.done .state { color: var(--ok); font-weight: 700; }
+
+  .sync { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 14px 16px; margin: 22px 0 8px; }
+  .sync h3 { margin: 0 0 6px; }
+  .sync input { margin: 8px 0; }
+  .sync-msg { margin: 8px 0 0; font-size: 17px; color: var(--muted); }
+  .sync-msg.ok { color: var(--ok); font-weight: 700; }
+  .sync-msg.bad { color: var(--bad); font-weight: 700; }
+
+  nav {
+    position: fixed; left: 0; right: 0; bottom: 0;
+    background: var(--surface); border-top: 1px solid var(--line);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    display: flex; justify-content: center; z-index: 5;
+  }
+  nav .inner { display: flex; width: 100%; max-width: 640px; }
+  nav button {
+    flex: 1; border: 0; background: transparent; color: var(--muted);
+    padding: 10px 4px; min-height: 68px; font-size: 15px; font-weight: 600;
+    display: flex; flex-direction: column; align-items: center; gap: 2px;
+  }
+  nav button .ic { font-size: 24px; line-height: 1; }
+  nav button[aria-current=page] { color: var(--sea); }
+  nav button[aria-current=page] .ic { transform: scale(1.1); }
+  button:focus-visible, input:focus-visible { outline: 3px solid var(--sun); outline-offset: 2px; }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
 </style>
 </head>
 <body>
-<div class="wrap" id="app"></div>
 
+<header>
+  <h1>Asturianu Básico A1</h1>
+  <span class="chip" id="chip">Lección 1</span>
+</header>
+
+<main>
+  <section id="v-aprender"></section>
+  <section id="v-tarjetas" hidden></section>
+  <section id="v-practica" hidden></section>
+  <section id="v-plan" hidden></section>
+</main>
+
+<nav aria-label="Secciones">
+  <div class="inner">
+    <button data-tab="aprender" aria-current="page"><span class="ic">📖</span>Lección</button>
+    <button data-tab="tarjetas"><span class="ic">🗂️</span>Tarjetas</button>
+    <button data-tab="practica"><span class="ic">✏️</span>Práctica</button>
+    <button data-tab="plan"><span class="ic">🧭</span>Plan</button>
+  </div>
+</nav>
+
+<script src="firebase-config.js"></script>
+<script src="lessons.js"></script>
 <script>
-/* ---------- Contenido ---------- */
-var L = [
-{
- t:"Saludos y presentaciones", s:"Hola, gracies, cómo te llames",
- intro:"El asturiano (asturianu) se parece mucho al castellano, así que vas a reconocer casi todo. Empiezas por lo más útil: saludar, dar las gracias y decir cómo te llamas.",
- vocab:[["Hola","Hola"],["Bonos díes","Buenos días"],["Bones tardes","Buenas tardes"],["Bones nueches","Buenas noches"],["Adiós","Adiós"],["Hasta mañana","Hasta mañana"],["Por favor","Por favor"],["Gracies","Gracias"],["Munches gracies","Muchas gracias"],["De nada","De nada"],["Sí / Non","Sí / No"],["¿Cómo te llames?","¿Cómo te llamas?"],["Llámome Fer","Me llamo Fer"],["¿Cómo tas?","¿Cómo estás?"],["Toi bien","Estoy bien"],["Encantáu / Encantada","Encantado / Encantada"]],
- tips:["Los plurales femeninos acaban en -es: una gracia, munches gracies.","“Non” es el “no” asturiano.","La x suena como la “sh” de “shock”: Xixón (Gijón) suena parecido a “Shishón”.","Llámome: el pronombre va pegado al final del verbo (llamo + me). Es muy típico del asturiano."],
- ex:[
-  ["¿Cómo se dice “gracias”?","Gracies","Gracias","Grazas","Gracios","En asturiano el plural femenino acaba en -es: gracies. (“Grazas” es gallego)."],
-  ["¿Cómo se dice “no”?","Non","Nom","Nao","Nó","“Non” es el no asturiano."],
-  ["“Me llamo Fer” se dice…","Llámome Fer","Me llamo Fer","Llamo-me Fer","Yo llame Fer","El pronombre va pegado al verbo: llámome."],
-  ["“¿Cómo estás?” se dice…","¿Cómo tas?","¿Cómo estás?","¿Cómo yes?","¿Cómo tais?","“Tas” es la forma de tu del verbo estar."],
-  ["“Buenos días” se dice…","Bonos díes","Buenos díes","Bonos días","Bons dies","Bonos (masculino plural) y díes (plural en -es)."],
-  ["“Muchas gracias” se dice…","Munches gracies","Muchas gracias","Munchas gracias","Muitas gracies","Munches: es el femenino plural de munchu (mucho)."]
- ]
-},
-{
- t:"Yo, tu, él: ser y estar", s:"Pronombres y los verbos ye / ta",
- intro:"Igual que en castellano, hay dos verbos: ser (para identidad y origen) y estar (para estados y lugares). Apréndete las formas, que se usan en todas las frases.",
- vocab:[["yo","yo"],["tu","tú"],["él / ella","él / ella"],["nós","nosotros"],["vós","vosotros"],["ellos / elles","ellos / ellas"]],
- tables:[{c:"Ser",r:[["yo","soi"],["tu","yes"],["él / ella","ye"],["nós","somos"],["vós","sois"],["ellos / elles","son"]]},{c:"Estar",r:[["yo","toi"],["tu","tas"],["él / ella","ta"],["nós","tamos"],["vós","tais"],["ellos / elles","tán"]]}],
- ej:[["Yo soi de Xixón.","Yo soy de Gijón."],["Ella ye d’Uviéu.","Ella es de Oviedo."],["Nós tamos equí.","Nosotros estamos aquí."],["¿Cómo tais?","¿Cómo estáis?"]],
- tips:["Delante de vocal, “de” se acorta: d’Uviéu (de Oviedo).","Oviedo es Uviéu y Gijón es Xixón: los nombres de lugar cambien un poco.","Ojo con tu yes (tú eres) y él ye (él es): parecidas pero distintas."],
- ex:[
-  ["“Yo soy” se dice…","Soi","Yes","Ye","Somos","Soi es la forma de yo del verbo ser."],
-  ["“Tú eres” se dice…","Yes","Soi","Ye","Sois","Tu yes."],
-  ["“Ella es de Oviedo” se dice…","Ella ye d’Uviéu","Ella yes d’Uviéu","Ella ta d’Uviéu","Ella soi d’Uviéu","Para él/ella de ser se usa ye. Oviedo es Uviéu."],
-  ["“Nosotros estamos bien”…","Nós tamos bien","Nós somos bien","Nós toi bien","Nós tais bien","Tamos es la forma de nós del verbo estar."],
-  ["“Ellos están”…","Ellos tán","Ellos ta","Ellos son","Ellos tamos","Ellos tán."],
-  ["“Vosotros estáis”…","Vós tais","Vós sois","Vós tamos","Vós tas","Tais es vós de estar; sois es vós de ser."]
- ]
-},
-{
- t:"Números y díes de la selmana", s:"Del 1 al 12 y los días",
- intro:"Los números son casi iguales que en castellano. Los días de la semana (selmana) cambian algo más: fíjate en los que empiezan por ll- y x-.",
- vocab:[["ún / una","uno / una"],["dos","dos"],["tres","tres"],["cuatro","cuatro"],["cinco","cinco"],["seis","seis"],["siete","siete"],["ocho","ocho"],["nueve","nueve"],["diez","diez"],["once","once"],["doce","doce"],["llunes","lunes"],["martes","martes"],["miércoles","miércoles"],["xueves","jueves"],["vienres","viernes"],["sábadu","sábado"],["domingu","domingo"]],
- tips:["Para el género: un llibru (masculino), una casa (femenina).","Martes y miércoles son iguales que en castellano; cambien llunes, xueves, vienres, sábadu y domingu.","Los días masculinos acaban en -u cuando terminan en -o en castellano: sábadu, domingu."],
- ex:[
-  ["¿Qué cifra es “siete”?","7","6","8","9","Siete = 7."],
-  ["¿Qué cifra es “diez”?","10","9","11","12","Diez = 10."],
-  ["Tres y dos son…","cinco","cuatro","seis","siete","3 + 2 = cinco."],
-  ["“Lunes” se dice…","Llunes","Lunes","Llunas","Lluns","Las palabras que en castellano empiezan por l- suelen empezar por ll- en asturiano."],
-  ["“Jueves” se dice…","Xueves","Jueves","Xuebes","Xeves","Xueves, con x (suena como “sh”)."],
-  ["“Domingo” se dice…","Domingu","Domingo","Dominga","Domengu","Los masculinos acaban en -u: domingu."]
- ]
-},
-{
- t:"Los artículos y el plural", s:"el, la, los, les",
- intro:"En asturiano los nombres masculinos acaban en -u y los femeninos en -a. El plural masculino acaba en -os y el femenino en -es. Eso es casi todo lo que necesitas.",
- vocab:[["el llibru / los llibros","el libro / los libros"],["la casa / les cases","la casa / las casas"],["el neñu / los neños","el niño / los niños"],["la neña / les neñes","la niña / las niñas"],["el perru / los perros","el perro / los perros"],["el gatu / los gatos","el gato / los gatos"],["la mesa / les meses","la mesa / las mesas"],["la ventana / les ventanes","la ventana / las ventanas"],["la puerta / les puertes","la puerta / las puertas"],["el pueblu / los pueblos","el pueblo / los pueblos"]],
- tables:[{c:"Artículos",r:[["el","masculino singular"],["la","femenino singular"],["los","masculino plural"],["les","femenino plural"],["lo","neutro (lo bono = lo bueno)"]]}],
- tips:["Muchas palabras que en castellano empiezan por l- empiezan por ll- en asturiano: llibru, lleche, llingua.","El femenino plural se forma con -es: la neña → les neñes.","La ñ también aparece en palabras como neñu (niño)."],
- ex:[
-  ["“El libro” se dice…","El llibru","El libro","La llibru","El llibro","Llibru: empieza por ll- y acaba en -u."],
-  ["“Las casas” se dice…","Les cases","Les casas","Los cases","Les casos","Femenino plural: les + nombre en -es."],
-  ["Plural de “la neña”:","Les neñes","Les neñas","Los neñes","Les neños","Les neñes."],
-  ["Plural de “el perru”:","Los perros","Los perrus","Les perros","Les perres","Masculino plural: los + -os."],
-  ["Plural de “la ventana”:","Les ventanes","Les ventanas","Los ventanes","Les ventanos","Les ventanes."],
-  ["“El gato” se dice…","El gatu","El gato","La gatu","El gate","Los masculinos acaban en -u: gatu."]
- ]
-},
-{
- t:"La familia", s:"fíu, güela, el mio padre",
- intro:"Las palabras de familia se reconocen fácil. Además aprendes “mi, tu, su”, que en asturiano son mio, to y so: no cambian entre masculino y femenino.",
- vocab:[["madre / padre","madre / padre"],["mamá / pá","mamá / papá"],["hermanu / hermana","hermano / hermana"],["fíu / fía","hijo / hija"],["güelu / güela","abuelo / abuela"],["tíu / tía","tío / tía"],["primu / prima","primo / prima"],["amigu / amiga","amigo / amiga"],["mio","mi"],["to","tu"],["so","su"]],
- ej:[["El mio padre ye de Xixón.","Mi padre es de Gijón."],["La to güela ta bien.","Tu abuela está bien."],["El so fíu vive n’Asturies.","Su hijo vive en Asturias."]],
- tips:["Mio, to y so valen para masculino y femenino: el mio padre, la mio madre.","Fíu y fía conservan la f- del latín; en castellano esa f- se perdió (hijo).","Los masculinos de persona acaban en -u: hermanu, güelu, tíu, primu, amigu."],
- ex:[
-  ["“Mi hermano” se dice…","El mio hermanu","El mi hermano","La mio hermanu","El mio hermano","Mio + hermanu (acaba en -u)."],
-  ["“Tu madre” se dice…","La to madre","La tu madre","El to madre","La tua madre","To es “tu” en asturiano."],
-  ["“Su amigo” se dice…","El so amigu","El su amigo","La so amigu","El soi amigu","So es “su”."],
-  ["“Abuela” se dice…","Güela","Abuela","Güelo","Guela","Güelu / güela."],
-  ["“Hijo” se dice…","Fíu","Hijo","Fillu","Fiu","Fíu, con la f- del latín."],
-  ["“Tío” se dice…","Tíu","Tío","Tiu","Tíe","Tíu / tía."]
- ]
-},
-{
- t:"Comer y beber", s:"Pan, lleche, sidra y fabes",
- intro:"Vocabulario para el bar y la cocina. En Asturias la sidra es casi un idioma aparte.",
- vocab:[["el pan","el pan"],["la lleche","la leche"],["l’agua","el agua"],["el café","el café"],["la sidra","la sidra"],["el quesu","el queso"],["les fabes","las fabes (alubias)"],["la carne","la carne"],["el pexe","el pescado"],["la fruta","la fruta"],["la mazana","la manzana"],["la sal","la sal"],["l’azucre","el azúcar"],["Quiero un café","Quiero un café"],["Tengo fame","Tengo hambre"],["Tengo sede","Tengo sed"],["La cuenta, por favor","La cuenta, por favor"]],
- tips:["Delante de vocal, “la” y “el” se acortan: l’agua, l’azucre.","El asturiano mantiene la f- latina en palabras como fame (hambre).","Cultura: la sidra se escancia, echándola desde arriba para que gane burbuja. Lo que se sirve cada vez es un culín."],
- ex:[
-  ["“Leche” se dice…","Lleche","Leche","Llechi","Lleite","Empieza por ll-: lleche."],
-  ["“Queso” se dice…","Quesu","Queso","Quisu","Cheso","Quesu, acabado en -u."],
-  ["“Pescado” se dice…","Pexe","Pescáu","Peixe","Pesque","Pexe: con x."],
-  ["“Manzana” se dice…","Mazana","Manzana","Mazanu","Manzaña","Mazana, sin n."],
-  ["“Tengo hambre” se dice…","Tengo fame","Tengo hambre","Tengo fami","Tengo fome","Fame mantiene la f-."],
-  ["“Azúcar” se dice…","Azucre","Azúcar","Azuque","Zucre","Azucre."]
- ]
-},
-{
- t:"Verbos regulares", s:"falar, comer, vivir",
- intro:"Hay tres grupos de verbos: -ar, -er e -ir. Aprendiendo uno de cada grupo, sabes conjugar casi todos.",
- vocab:[["falar","hablar"],["comer","comer"],["vivir","vivir"],["trabayar","trabajar"],["beber","beber"],["escribir","escribir"],["lleer","leer"]],
- tables:[{c:"falar (hablar)",r:[["yo","falo"],["tu","fales"],["él / ella","fala"],["nós","falamos"],["vós","faláis"],["ellos / elles","falen"]]},{c:"comer",r:[["yo","como"],["tu","comes"],["él / ella","come"],["nós","comemos"],["vós","coméis"],["ellos / elles","comen"]]},{c:"vivir",r:[["yo","vivo"],["tu","vives"],["él / ella","vive"],["nós","vivimos"],["vós","vivís"],["ellos / elles","viven"]]}],
- ej:[["Yo falo asturianu.","Yo hablo asturiano."],["Nós comemos pan.","Nosotros comemos pan."],["Elles viven n’Asturies.","Ellas viven en Asturias."],["Tu trabayes en Xixón.","Tú trabajas en Gijón."]],
- tips:["Terminaciones: -o, -es, -e, -amos/-emos/-imos, -áis/-éis/-ís, -en.","En la forma de vós llevan tilde: faláis, coméis, vivís.","El verbo falar es el “hablar”. Por eso al asturiano también se le llama “la fala”."],
- ex:[
-  ["“Yo hablo” se dice…","Falo","Falu","Fala","Falas","Falo: yo."],
-  ["“Tú comes” se dice…","Comes","Come","Comemos","Como","Tu comes."],
-  ["“Ella vive” se dice…","Vive","Vives","Vivo","Viven","Él/ella vive."],
-  ["“Nosotros hablamos” se dice…","Falamos","Falemos","Falan","Falo","Falamos."],
-  ["“Ellos comen” se dice…","Comen","Come","Comes","Comemos","Ellos comen."],
-  ["“Vosotros vivís” se dice…","Vivís","Vives","Viven","Vivimos","Vós vivís."]
- ]
-},
-{
- t:"Lugares y direcciones", s:"na playa, nel pueblu, ónde ta",
- intro:"Para moverte por Asturias: nombres de lugares, cómo preguntar dónde está algo y las contracciones con “en”, que son muy típicas.",
- vocab:[["la casa","la casa"],["el pueblu","el pueblo"],["la ciudá","la ciudad"],["la playa","la playa"],["la mar","el mar"],["el monte","el monte"],["el ríu","el río"],["la plaza","la plaza"],["la ilesia","la iglesia"],["la tienda","la tienda"],["el mercáu","el mercado"],["a la derecha","a la derecha"],["a la izquierda","a la izquierda"],["equí","aquí"],["ellí","allí"],["¿Ónde ta…?","¿Dónde está…?"]],
- tables:[{c:"Ir",r:[["yo","voi"],["tu","vas"],["él / ella","va"],["nós","vamos"],["vós","vais"],["ellos / elles","van"]]},{c:"Contracciones con “en”",r:[["en + el","nel"],["en + la","na"],["en + los","nos"],["en + les","nes"],["en + vocal","n’"]]}],
- ej:[["¿Ónde ta la playa?","¿Dónde está la playa?"],["La playa ta ellí.","La playa está allí."],["Voi a Xixón.","Voy a Gijón."],["Toi na plaza.","Estoy en la plaza."],["Vivo nel pueblu.","Vivo en el pueblo."]],
- tips:["“Na playa” es “en la playa”; “nel pueblu” es “en el pueblo”.","Las palabras que acaban en -ad en castellano acaban en -á: ciudá, verdá, llibertá.","“Ónde ta…?” es la pregunta más útil para orientarte."],
- ex:[
-  ["“Iglesia” se dice…","Ilesia","Iglesia","Ilexa","Iglesa","Ilesia, sin la g."],
-  ["“Ciudad” se dice…","Ciudá","Ciudad","Ciudau","Ciudaz","Las palabras en -ad acaban en -á: ciudá."],
-  ["“En la playa” se dice…","Na playa","En la playa","Nel playa","Nes playa","En + la = na."],
-  ["“Voy a Gijón” se dice…","Voi a Xixón","Voy a Gijón","Vo a Xixón","Voi a Xijón","Voi (yo de ir) y Xixón."],
-  ["“¿Dónde está?” se dice…","¿Ónde ta?","¿Dónde está?","¿Ónde yes?","¿Ónde tai?","Ónde = dónde; ta = está."],
-  ["“Allí” se dice…","Ellí","Allí","Ehí","Allá","Ellí."]
- ]
-}
-];
+(function () {
+  'use strict';
 
-/* ---------- Utilidades ---------- */
-var app = document.getElementById("app");
-var KEY = "asturiano-a1-progreso";
-var prog = {};
-try { prog = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch(e) { prog = {}; }
-function save(){ try { localStorage.setItem(KEY, JSON.stringify(prog)); } catch(e) {} }
-function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]; }); }
-function shuffle(a){ a = a.slice(); for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
-var CROSS = '<svg viewBox="0 0 100 100" aria-hidden="true"><polygon fill="#E2A82B" points="38,4 62,4 55,24 55,76 62,96 38,96 45,76 45,24"/><polygon fill="#E2A82B" points="4,38 4,62 24,55 76,55 96,62 96,38 76,45 24,45"/></svg>';
-function mastered(i){ var p = prog[i]; return p && p.best / p.total >= 0.8; }
+  var APP = window.APP;
+  var LESSONS = APP.LESSONS;
 
-/* ---------- Pantallas ---------- */
-function home(){
-  var done = 0; L.forEach(function(_,i){ if (mastered(i)) done++; });
-  var h = '<header class="top"><div class="in">' + CROSS + '<div><h1>Asturianu Básico A1</h1><p>8 lecciones para empezar desde cero</p></div></div>' +
-    '<div class="in"><div class="bar" style="flex:1" role="progressbar" aria-valuemin="0" aria-valuemax="8" aria-valuenow="' + done + '"><i style="width:' + (done/8*100) + '%"></i></div></div>' +
-    '<div class="in"><p>' + done + ' de 8 lecciones dominadas</p></div></header>';
-  L.forEach(function(l,i){
-    var p = prog[i];
-    var st = p ? (mastered(i) ? "Dominada · " : "A repasar · ") + p.best + " de " + p.total : l.s;
-    h += '<button class="lesson-card' + (mastered(i) ? ' done' : '') + '" data-go="#/l/' + i + '"><span class="n">' + (mastered(i) ? '✓' : (i+1)) + '</span><span><div class="t">' + esc(l.t) + '</div><div class="s">' + esc(st) + '</div></span></button>';
-  });
-  h += '<button class="btn gold" data-go="#/r">Repaso general (15 preguntas)</button>';
-  h += '<div class="foot center"><button class="btn small" id="reset">Borrar mi progreso</button></div>';
-  app.innerHTML = h;
-  var r = document.getElementById("reset");
-  if (r) r.onclick = function(){ if (confirm("¿Borrar todo tu progreso?")) { prog = {}; save(); home(); } };
-}
+  var PASS = 0.8;
+  var NQ = 10;
+  var KEY = APP.id + '-v1';
 
-function lesson(i){
-  var l = L[i], h = '<button class="back" data-go="#/">‹ Todas las lecciones</button>';
-  h += '<h2 class="lt">' + (i+1) + '. ' + esc(l.t) + '</h2><p class="intro">' + esc(l.intro) + '</p>';
-  if (l.vocab){
-    h += '<h3>Vocabulario</h3><div class="vocab">';
-    l.vocab.forEach(function(v){ h += '<div class="r"><div class="a">' + esc(v[0]) + '</div><div class="e">' + esc(v[1]) + '</div></div>'; });
-    h += '</div>';
+  /* ---------- Utilidades ---------- */
+  function $(id) { return document.getElementById(id); }
+  function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+  function shuffle(a) {
+    a = a.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t;
+    }
+    return a;
   }
-  if (l.tables){
-    l.tables.forEach(function(t){
-      h += '<table class="t"><caption>' + esc(t.c) + '</caption>';
-      t.r.forEach(function(r){ h += '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td></tr>'; });
-      h += '</table>';
+  function uniq(a) { return a.filter(function (x, i) { return a.indexOf(x) === i; }); }
+  function pick(arr, n, exclude) {
+    return shuffle(arr.filter(function (x) { return x !== exclude; })).slice(0, n);
+  }
+  var CONTR = [
+    [/\bi'm\b/g, 'i am'],
+    [/\b(he|she|it|that|what|there|here|who)'s\b/g, '$1 is'],
+    [/\b(you|we|they)'re\b/g, '$1 are'],
+    [/\bdon't\b/g, 'do not'],
+    [/\bi'll\b/g, 'i will']
+  ];
+  function norm(s) {
+    s = String(s).toLowerCase().replace(/[’‘]/g, "'");
+    if (APP.contractions) CONTR.forEach(function (c) { s = s.replace(c[0], c[1]); });
+    s = s.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    return s.replace(/[.,!?¡¿;:']/g, '').replace(/\s+/g, ' ').trim();
+  }
+  function words(s) { return s.replace(/[.,!?]/g, '').split(' ').filter(Boolean); }
+  function items(L) { return L.items.map(function (a) { return { en: a[0], pron: a[1], es: a[2] }; }); }
+
+  /* ---------- Progreso (se guarda en el móvil) ---------- */
+  var state = { cur: 0, best: {}, passed: {}, known: {}, epoch: 0, updatedAt: 0 };
+  try {
+    var saved = JSON.parse(localStorage.getItem(KEY) || 'null');
+    if (saved) {
+      state.cur = saved.cur || 0;
+      state.best = saved.best || {};
+      state.passed = saved.passed || {};
+      state.known = saved.known || {};
+      state.epoch = saved.epoch || 0;
+      state.updatedAt = saved.updatedAt || 0;
+    }
+  } catch (e) {}
+  function save(skipCloud) {
+    if (!skipCloud) state.updatedAt = Date.now();
+    try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {}
+    if (!skipCloud) cloudPush();
+  }
+  function unlocked(i) { return i === 0 || !!state.passed[i - 1]; }
+  if (!unlocked(state.cur)) state.cur = 0;
+  function L() { return LESSONS[state.cur]; }
+
+  /* ---------- Voz del idioma ---------- */
+  var voice = null;
+  function loadVoice() {
+    if (!('speechSynthesis' in window)) return;
+    var vs = speechSynthesis.getVoices();
+    var want = APP.speechLang.toLowerCase();
+    function lg(v) { return (v.lang || '').toLowerCase().replace('_', '-'); }
+    voice = vs.filter(function (v) { return lg(v) === want; })[0] ||
+            vs.filter(function (v) { return lg(v).indexOf(APP.voicePrefix) === 0; })[0] || null;
+  }
+  if ('speechSynthesis' in window) { loadVoice(); speechSynthesis.onvoiceschanged = loadVoice; }
+  function speak(text, slow) {
+    if (!('speechSynthesis' in window)) { alert('Este móvil no tiene voz en ' + APP.langName + ' disponible.'); return; }
+    speechSynthesis.cancel();
+    if (APP.tts) text = APP.tts(text);
+    var u = new SpeechSynthesisUtterance(text);
+    u.lang = voice ? voice.lang : APP.speechLang;
+    if (voice) u.voice = voice;
+    u.rate = slow ? 0.6 : 0.85;
+    speechSynthesis.speak(u);
+  }
+
+  /* ---------- Navegación ---------- */
+  var tabs = ['aprender', 'tarjetas', 'practica', 'plan'];
+  var quiz = null, cardIdx = 0, flipped = false, curTab = 'aprender';
+
+  function show(tab) {
+    curTab = tab;
+    tabs.forEach(function (t) { $('v-' + t).hidden = (t !== tab); });
+    document.querySelectorAll('nav button').forEach(function (b) {
+      if (b.dataset.tab === tab) b.setAttribute('aria-current', 'page'); else b.removeAttribute('aria-current');
+    });
+    if (tab === 'aprender') renderLesson();
+    if (tab === 'tarjetas') renderCards();
+    if (tab === 'practica') renderPracticeHome();
+    if (tab === 'plan') renderPlan();
+    window.scrollTo(0, 0);
+  }
+  function setLesson(i) {
+    state.cur = i; quiz = null; cardIdx = 0; flipped = false; save(); updateChip();
+  }
+  document.querySelector('nav').addEventListener('click', function (e) {
+    var b = e.target.closest('button[data-tab]'); if (b) show(b.dataset.tab);
+  });
+
+  function updateChip() {
+    $('chip').textContent = 'Lección ' + (state.cur + 1) + (state.passed[state.cur] ? ' ✓' : '');
+  }
+
+  /* ---------- Lección ---------- */
+  function renderLesson() {
+    var lesson = L(), its = items(lesson), h = '';
+    h += '<h2>Lección ' + (state.cur + 1) + ': ' + esc(lesson.title) + '</h2>';
+    h += '<p class="muted">' + esc(lesson.intro) + ' Toca una frase para oírla; el botón 🐢 la dice más despacio.</p>';
+    var f = its[0];
+    h += '<button class="hero' + (f.en.length > 16 ? ' long' : '') + '" data-say="' + esc(f.en) + '">' +
+         '<span class="en">' + esc(f.en) + '</span><span class="pron">' + esc(f.pron) + '</span>' +
+         '<span class="es">' + esc(f.es) + '</span><span class="hint">Toca para escuchar</span></button>';
+    its.slice(1).forEach(function (p) {
+      h += '<div class="row"><div class="txt"><div class="en">' + esc(p.en) + '</div>' +
+           '<div class="pron">' + esc(p.pron) + '</div><div class="es">' + esc(p.es) + '</div></div>' +
+           '<button class="icon-btn" data-slow="' + esc(p.en) + '" aria-label="Escuchar despacio">🐢</button>' +
+           '<button class="icon-btn" data-say="' + esc(p.en) + '" aria-label="Escuchar">🔊</button></div>';
+    });
+    lesson.tips.forEach(function (t) { h += '<div class="tip">' + t + '</div>'; });
+
+    h += '<h3>Conversaciones de ejemplo</h3>';
+    lesson.dialogs.forEach(function (d) {
+      h += '<div class="dialog"><h4>' + esc(d.title) + '</h4>';
+      d.lines.forEach(function (l, k) {
+        h += '<div class="dline"><span class="who' + (k % 2 ? ' b' : '') + '">' + (k % 2 ? 'B' : 'A') + '</span>' +
+             '<div class="txt"><div class="en">' + esc(l[0]) + '</div><div class="es">' + esc(l[1]) + '</div></div>' +
+             '<button class="icon-btn" data-say="' + esc(l[0]) + '" aria-label="Escuchar">🔊</button></div>';
+      });
+      var all = d.lines.map(function (l) { return l[0]; }).join(' ... ');
+      h += '<button class="btn ghost" data-say="' + esc(all) + '">🔊 Escuchar toda la conversación</button></div>';
+    });
+    h += '<button class="btn" id="go-practica">Practicar lo aprendido</button>';
+    $('v-aprender').innerHTML = h;
+  }
+
+  /* ---------- Tarjetas ---------- */
+  function renderCards() {
+    var its = items(L());
+    if (cardIdx >= its.length) cardIdx = 0;
+    var p = its[cardIdx];
+    var knownCount = its.filter(function (x) { return state.known[x.en]; }).length;
+    var h = '<h2>Tarjetas · Lección ' + (state.cur + 1) + '</h2>';
+    h += '<p class="counter">' + (cardIdx + 1) + ' de ' + its.length + ' · las sé: ' + knownCount + '</p>';
+    h += '<button class="card" id="card" aria-live="polite">';
+    if (!flipped) {
+      h += '<span class="big' + (p.en.length > 20 ? ' long' : '') + '">' + esc(p.en) + '</span><span class="small">Toca para ver el significado</span>';
+    } else {
+      h += '<span class="big' + (p.es.length > 20 ? ' long' : '') + '">' + esc(p.es) + '</span><span class="pron">' + esc(p.pron) + '</span>' +
+           '<span class="small">' + esc(p.en) + '</span>';
+    }
+    h += '</button>';
+    h += '<div class="pair"><button class="btn ghost" data-say="' + esc(p.en) + '">🔊 Oír</button>' +
+         '<button class="btn ghost" data-slow="' + esc(p.en) + '">🐢 Despacio</button></div>';
+    h += '<div class="pair"><button class="btn ghost" id="c-prev">← Anterior</button>' +
+         '<button class="btn ghost" id="c-next">Siguiente →</button></div>';
+    h += '<button class="btn" id="c-know">' + (state.known[p.en] ? '✓ Ya la sé (toca para quitar)' : 'Ya me la sé') + '</button>';
+    $('v-tarjetas').innerHTML = h;
+  }
+
+  /* ---------- Práctica ---------- */
+  function buildQuiz(lesson) {
+    var its = items(lesson);
+    var ens = its.map(function (p) { return p.en; });
+    var ess = uniq(its.map(function (p) { return p.es; }));
+    var used = {};
+    function choose(filter) {
+      var c = shuffle(its.filter(filter));
+      var fresh = c.filter(function (x) { return !used[x.en]; });
+      var p = (fresh.length ? fresh : c)[0];
+      if (p) used[p.en] = 1;
+      return p;
+    }
+    function any() { return true; }
+    function short(p) { return words(p.en).length <= 4; }
+    function mid(p) { var n = words(p.en).length; return n >= 3 && n <= 7; }
+
+    function qChooseEs(p) {
+      return { type: 'choose', prompt: '¿Qué significa “' + p.en + '”?', say: null,
+               options: shuffle([p.es].concat(pick(ess, 3, p.es))), answer: p.es, show: p.en + ' = ' + p.es };
+    }
+    function qChooseEn(p) {
+      return { type: 'choose', prompt: '¿Cómo dices “' + p.es.replace(/\.$/, '') + '” en ' + APP.langName + '?', say: null,
+               options: shuffle([p.en].concat(pick(ens, 3, p.en))), answer: p.en, show: p.en };
+    }
+    function qListen(p) {
+      return { type: 'choose', prompt: 'Escucha y elige qué significa.', say: p.en,
+               options: shuffle([p.es].concat(pick(ess, 3, p.es))), answer: p.es, show: p.en + ' = ' + p.es };
+    }
+    function qType(p) {
+      return { type: 'type', prompt: 'Escribe en ' + APP.langName + ': “' + p.es.replace(/\.$/, '') + '”', answer: p.en, show: p.en };
+    }
+    function qOrder(p) {
+      var w = words(p.en);
+      return { type: 'order', prompt: 'Ordena la frase: “' + p.es.replace(/\.$/, '') + '”', words: shuffle(w), answer: w.join(' '), show: p.en };
+    }
+
+    var seq = ['ce', 'li', 'ee', 'ty', 'or', 'ee', 'li', 'ty', 'or', 'ce'];
+    var qs = seq.slice(0, NQ).map(function (k) {
+      var p;
+      if (k === 'ty') { p = choose(short); return p ? qType(p) : qChooseEn(choose(any)); }
+      if (k === 'or') { p = choose(mid);   return p ? qOrder(p) : qChooseEn(choose(any)); }
+      if (k === 'ce') return qChooseEs(choose(any));
+      if (k === 'ee') return qChooseEn(choose(any));
+      return qListen(choose(any));
+    });
+    return { lesson: state.cur, qs: qs, i: 0, score: 0, answered: false, picked: [], chosen: null, typed: '', saved: false };
+  }
+
+  function renderPracticeHome() {
+    if (quiz && quiz.lesson !== state.cur) quiz = null;
+    if (quiz && quiz.i < quiz.qs.length) { renderQuestion(); return; }
+    if (quiz && quiz.i >= quiz.qs.length) { renderResult(); return; }
+    var h = '<h2>Práctica · Lección ' + (state.cur + 1) + '</h2>';
+    h += '<p>' + NQ + ' ejercicios cortos de esta lección. Para dominarla necesitas al menos un 80 % de aciertos.</p>';
+    var b = state.best[state.cur];
+    if (b) h += '<p class="muted">Tu mejor resultado: ' + b + ' de ' + NQ + (state.passed[state.cur] ? ' ✓ Lección dominada' : '') + '.</p>';
+    h += '<button class="btn" id="q-start">Empezar</button>';
+    $('v-practica').innerHTML = h;
+  }
+
+  function renderQuestion() {
+    var q = quiz.qs[quiz.i];
+    var pct = Math.round((quiz.i / quiz.qs.length) * 100);
+    var h = '<div class="counter">Ejercicio ' + (quiz.i + 1) + ' de ' + quiz.qs.length + '</div>';
+    h += '<div class="bar"><i style="width:' + pct + '%"></i></div>';
+    h += '<div class="q">' + esc(q.prompt) + '</div>';
+    if (q.say) h += '<div class="pair"><button class="btn ghost" data-say="' + esc(q.say) + '">🔊 Oír</button>' +
+                    '<button class="btn ghost" data-slow="' + esc(q.say) + '">🐢 Despacio</button></div>';
+
+    if (q.type === 'choose') {
+      q.options.forEach(function (o, k) {
+        var cls = 'opt';
+        if (quiz.answered) { if (o === q.answer) cls += ' ok'; else if (quiz.chosen === o) cls += ' bad'; }
+        h += '<button class="' + cls + '" data-opt="' + k + '"' + (quiz.answered ? ' disabled' : '') + '>' + esc(o) + '</button>';
+      });
+    } else if (q.type === 'type') {
+      h += '<input type="text" id="typed" autocomplete="off" autocapitalize="sentences" spellcheck="false" ' +
+           (quiz.answered ? 'disabled value="' + esc(quiz.typed || '') + '"' : '') + ' placeholder="Escribe aquí">';
+      if (!quiz.answered) h += '<button class="btn" id="q-check">Comprobar</button>';
+    } else if (q.type === 'order') {
+      h += '<div class="answer-area">';
+      quiz.picked.forEach(function (idx, n) {
+        h += '<button class="tile" data-un="' + n + '"' + (quiz.answered ? ' disabled' : '') + '>' + esc(q.words[idx]) + '</button>';
+      });
+      h += '</div><div class="tiles">';
+      q.words.forEach(function (w, idx) {
+        h += '<button class="tile' + (quiz.picked.indexOf(idx) > -1 ? ' used' : '') + '" data-tile="' + idx + '">' + esc(w) + '</button>';
+      });
+      h += '</div>';
+      if (!quiz.answered) h += '<button class="btn" id="q-check"' + (quiz.picked.length ? '' : ' disabled') + '>Comprobar</button>';
+    }
+
+    if (quiz.answered) {
+      h += '<div class="feedback ' + (quiz.correct ? 'ok' : 'bad') + '">' +
+           (quiz.correct ? '<b>¡Correcto!</b>' : '<b>Casi.</b> Se dice: ' + esc(q.show)) + '</div>';
+      var sayText = q.type === 'choose' && q.say ? q.say : (q.type === 'choose' ? (q.show.split(' = ')[0]) : q.show);
+      h += '<div class="pair"><button class="btn ghost" data-say="' + esc(sayText) + '">🔊 Oír</button>' +
+           '<button class="btn" id="q-next">' + (quiz.i === quiz.qs.length - 1 ? 'Ver resultado' : 'Siguiente') + '</button></div>';
+    }
+    $('v-practica').innerHTML = h;
+    if (q.type === 'type' && !quiz.answered) { var t = $('typed'); if (t) t.focus(); }
+  }
+
+  function finishAnswer(ok) {
+    quiz.answered = true; quiz.correct = ok;
+    if (ok) quiz.score++;
+    renderQuestion();
+  }
+
+  function renderResult() {
+    var total = quiz.qs.length, ok = quiz.score / total >= PASS;
+    if (!quiz.saved) {
+      quiz.saved = true;
+      if (quiz.score > (state.best[quiz.lesson] || 0)) state.best[quiz.lesson] = quiz.score;
+      if (ok) state.passed[quiz.lesson] = true;
+      save(); updateChip();
+    }
+    var last = quiz.lesson === LESSONS.length - 1;
+    var h = '<h2>Resultado</h2><div class="score">' + quiz.score + ' / ' + total + '</div>';
+    if (ok && last) {
+      h += '<div class="feedback ok"><b>¡Has completado el curso!</b> Ya puedes saludar, pedir, preguntar y mantener una conversación sencilla en ' + APP.langName + '. Enhorabuena.</div>';
+    } else if (ok) {
+      h += '<div class="feedback ok"><b>¡Lección ' + (quiz.lesson + 1) + ' dominada!</b> Se ha abierto la lección ' + (quiz.lesson + 2) + ': ' + esc(LESSONS[quiz.lesson + 1].title) + '.</div>';
+      h += '<button class="btn" id="next-lesson">Ir a la lección ' + (quiz.lesson + 2) + '</button>';
+    } else {
+      h += '<div class="feedback bad"><b>Todavía no.</b> Necesitas al menos un 80 %. Repasa la lección y las tarjetas y vuelve a intentarlo, sin prisa.</div>';
+    }
+    h += '<button class="btn ' + (ok ? 'ghost' : '') + '" id="q-again">Repetir práctica</button>';
+    h += '<button class="btn ghost" id="to-cards">Repasar tarjetas</button>';
+    $('v-practica').innerHTML = h;
+  }
+
+  /* ---------- Plan ---------- */
+  function renderPlan() {
+    var h = '<h2>Plan de aprendizaje</h2>';
+    h += '<p class="muted">Una lección cada vez. La siguiente se abre al dominar la actual (80 % en la práctica).</p>';
+    LESSONS.forEach(function (lesson, i) {
+      var open = unlocked(i), done = !!state.passed[i];
+      var cls = 'lesson-item' + (open ? '' : ' locked') + (done ? ' done' : '') + (i === state.cur ? ' current' : '');
+      var st = done ? '✓ Dominada (' + state.best[i] + ' de ' + NQ + ')' : (open ? (i === state.cur ? 'En curso' : 'Disponible') : 'Se abre al dominar la anterior');
+      h += '<button class="' + cls + '" data-lesson="' + i + '"' + (open ? '' : ' disabled') + '>' +
+           '<span class="n">' + (done ? '✓' : (open ? (i + 1) : '🔒')) + '</span>' +
+           '<span><span style="display:block"><b>' + (i + 1) + '. ' + esc(lesson.title) + '</b></span><span class="state">' + st + '</span></span></button>';
+    });
+    h += syncCard();
+    h += '<button class="btn ghost" id="reset" style="margin-top:28px">Borrar mi progreso</button>';
+    $('v-plan').innerHTML = h;
+  }
+
+  /* ---------- Eventos ---------- */
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    var say = t.closest('[data-say]'); if (say) { speak(say.dataset.say, false); return; }
+    var slow = t.closest('[data-slow]'); if (slow) { speak(slow.dataset.slow, true); return; }
+
+    var les = t.closest('[data-lesson]');
+    if (les) { setLesson(+les.dataset.lesson); show('aprender'); return; }
+    if (t.closest('#reset')) {
+      if (confirm('¿Seguro que quieres borrar todo tu progreso?')) {
+        state = { cur: 0, best: {}, passed: {}, known: {}, epoch: (state.epoch || 0) + 1, updatedAt: 0 }; quiz = null; cardIdx = 0; flipped = false;
+        save(); updateChip(); renderPlan();
+      }
+      return;
+    }
+
+    if (t.closest('#go-practica')) { show('practica'); quiz = buildQuiz(L()); renderQuestion(); return; }
+    if (t.closest('#q-start')) { quiz = buildQuiz(L()); renderQuestion(); return; }
+    if (t.closest('#q-again')) { quiz = buildQuiz(L()); renderQuestion(); return; }
+    if (t.closest('#next-lesson')) { setLesson(state.cur + 1); show('aprender'); return; }
+    if (t.closest('#to-cards')) { show('tarjetas'); return; }
+
+    if (t.closest('#card')) { flipped = !flipped; renderCards(); return; }
+    var n = L().items.length;
+    if (t.closest('#c-next')) { cardIdx = (cardIdx + 1) % n; flipped = false; renderCards(); return; }
+    if (t.closest('#c-prev')) { cardIdx = (cardIdx - 1 + n) % n; flipped = false; renderCards(); return; }
+    if (t.closest('#c-know')) {
+      var en = L().items[cardIdx][0];
+      if (state.known[en]) delete state.known[en]; else state.known[en] = true;
+      save(); renderCards(); return;
+    }
+
+    if (!quiz || quiz.i >= quiz.qs.length) return;
+    var q = quiz.qs[quiz.i];
+
+    var opt = t.closest('[data-opt]');
+    if (opt && !quiz.answered) {
+      var val = q.options[+opt.dataset.opt];
+      quiz.chosen = val; finishAnswer(val === q.answer); return;
+    }
+    var tile = t.closest('[data-tile]');
+    if (tile && !quiz.answered) {
+      var idx = +tile.dataset.tile;
+      if (quiz.picked.indexOf(idx) === -1) quiz.picked.push(idx);
+      renderQuestion(); return;
+    }
+    var un = t.closest('[data-un]');
+    if (un && !quiz.answered) { quiz.picked.splice(+un.dataset.un, 1); renderQuestion(); return; }
+
+    if (t.closest('#q-check') && !quiz.answered) {
+      if (q.type === 'type') {
+        quiz.typed = $('typed').value;
+        finishAnswer(norm(quiz.typed) === norm(q.answer));
+      } else if (q.type === 'order') {
+        var built = quiz.picked.map(function (i) { return q.words[i]; }).join(' ');
+        finishAnswer(norm(built) === norm(q.answer));
+      }
+      return;
+    }
+    if (t.closest('#q-next')) {
+      quiz.i++; quiz.answered = false; quiz.picked = []; quiz.chosen = null; quiz.typed = '';
+      if (quiz.i >= quiz.qs.length) renderResult(); else renderQuestion();
+      return;
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && e.target && e.target.id === 'typed') {
+      var b = $('q-check'); if (b) b.click();
+    }
+  });
+
+  /* ---------- Sincronización con Firebase (opcional) ---------- */
+  var FB_VER = '10.14.1';
+  var fbCfg = window.FIREBASE_CONFIG;
+  var cloud = {
+    cfg: (fbCfg && fbCfg.apiKey && fbCfg.projectId && String(fbCfg.apiKey).indexOf('PEGA') !== 0) ? fbCfg : null,
+    mods: null, auth: null, db: null, user: null, msg: '', timer: null, initDone: false, loading: null
+  };
+
+  function setMsg(m, kind) {
+    cloud.msg = m;
+    var el = $('s-msg');
+    if (el) { el.textContent = m; el.className = 'sync-msg' + (kind ? ' ' + kind : ''); }
+  }
+
+  function fbError(e) {
+    var c = (e && e.code) || '';
+    var map = {
+      'auth/invalid-credential': 'El correo o la contraseña no son correctos.',
+      'auth/wrong-password': 'La contraseña no es correcta.',
+      'auth/user-not-found': 'No hay ninguna cuenta con ese correo. Pulsa “Crear cuenta nueva”.',
+      'auth/email-already-in-use': 'Ese correo ya tiene una cuenta. Pulsa “Entrar”.',
+      'auth/weak-password': 'La contraseña es demasiado corta (mínimo 6 caracteres).',
+      'auth/invalid-email': 'El correo no parece válido.',
+      'auth/missing-password': 'Escribe tu contraseña.',
+      'auth/network-request-failed': 'Sin conexión. Inténtalo cuando tengas internet.',
+      'auth/too-many-requests': 'Demasiados intentos. Espera unos minutos.',
+      'auth/operation-not-allowed': 'Falta activar el acceso con correo y contraseña en Firebase (mira LEEME.md).',
+      'permission-denied': 'Firebase no deja guardar: revisa las reglas de Firestore (mira LEEME.md).',
+      'unavailable': 'Sin conexión. Tu progreso está a salvo en este móvil y se sincronizará más tarde.'
+    };
+    return map[c] || 'No se pudo sincronizar (' + (c || 'error') + ').';
+  }
+
+  function loadFirebase() {
+    if (cloud.mods) return Promise.resolve(cloud.mods);
+    if (cloud.loading) return cloud.loading;
+    var base = 'https://www.gstatic.com/firebasejs/' + FB_VER + '/';
+    cloud.loading = Promise.all([
+      import(base + 'firebase-app.js'),
+      import(base + 'firebase-auth.js'),
+      import(base + 'firebase-firestore.js')
+    ]).then(function (m) {
+      var app = m[0].initializeApp(cloud.cfg);
+      cloud.auth = m[1].getAuth(app);
+      cloud.db = m[2].getFirestore(app);
+      cloud.mods = { app: m[0], auth: m[1], fs: m[2] };
+      return cloud.mods;
+    }).catch(function (e) { cloud.loading = null; throw e; });
+    return cloud.loading;
+  }
+
+  function docRef() { return cloud.mods.fs.doc(cloud.db, 'users', cloud.user.uid, 'apps', APP.id); }
+
+  function normRemote(d) {
+    var k = {};
+    (Array.isArray(d.known) ? d.known : []).forEach(function (x) { k[x] = true; });
+    return { cur: d.cur || 0, best: d.best || {}, passed: d.passed || {}, known: k, epoch: d.epoch || 0, updatedAt: d.updatedAt || 0 };
+  }
+
+  function mergeStates(a, b) {
+    var ea = a.epoch || 0, eb = b.epoch || 0;
+    if (ea !== eb) return ea > eb ? a : b;                 // un borrado más reciente gana
+    var newer = (a.updatedAt || 0) >= (b.updatedAt || 0) ? a : b;
+    var out = { cur: newer.cur || 0, best: {}, passed: {}, known: Object.assign({}, newer.known || {}),
+                epoch: ea, updatedAt: Math.max(a.updatedAt || 0, b.updatedAt || 0) };
+    [a, b].forEach(function (s) {
+      Object.keys(s.passed || {}).forEach(function (k) { if (s.passed[k]) out.passed[k] = true; });
+      Object.keys(s.best || {}).forEach(function (k) { out.best[k] = Math.max(out.best[k] || 0, s.best[k] || 0); });
+    });
+    return out;
+  }
+
+  function applyState(m) {
+    state.cur = m.cur || 0; state.best = m.best || {}; state.passed = m.passed || {};
+    state.known = m.known || {}; state.epoch = m.epoch || 0; state.updatedAt = m.updatedAt || 0;
+    if (!unlocked(state.cur)) state.cur = 0;
+    save(true);
+    updateChip();
+    if (curTab === 'plan') renderPlan(); else if (curTab === 'aprender') renderLesson();
+  }
+
+  function push() {
+    if (!cloud.user || !cloud.mods) return Promise.resolve();
+    var data = { cur: state.cur, best: state.best, passed: state.passed, known: Object.keys(state.known),
+                 epoch: state.epoch || 0, updatedAt: state.updatedAt || Date.now() };
+    return cloud.mods.fs.setDoc(docRef(), data);
+  }
+
+  function pull() {
+    if (!cloud.user || !cloud.mods) return Promise.resolve();
+    setMsg('Sincronizando…');
+    return cloud.mods.fs.getDoc(docRef()).then(function (snap) {
+      if (snap.exists()) applyState(mergeStates(state, normRemote(snap.data())));
+      return push();
+    }).then(function () { setMsg('Sincronizado ✓', 'ok'); })
+      .catch(function (e) { setMsg(fbError(e), 'bad'); });
+  }
+
+  function cloudPush() {
+    if (!cloud.user || !cloud.mods) return;
+    clearTimeout(cloud.timer);
+    cloud.timer = setTimeout(function () {
+      push().then(function () { setMsg('Sincronizado ✓', 'ok'); })
+            .catch(function (e) { setMsg(fbError(e), 'bad'); });
+    }, 1500);
+  }
+
+  function initCloud() {
+    if (!cloud.cfg || cloud.initDone) return;
+    loadFirebase().then(function (mods) {
+      cloud.initDone = true;
+      mods.auth.onAuthStateChanged(cloud.auth, function (u) {
+        cloud.user = u || null;
+        if (u) pull(); else setMsg('');
+        if (curTab === 'plan') renderPlan();
+      });
+    }).catch(function () {
+      setMsg('Sin conexión: tu progreso se guarda en este móvil y se sincronizará cuando haya internet.');
     });
   }
-  if (l.ej){
-    h += '<h3>Ejemplos</h3>';
-    l.ej.forEach(function(e){ h += '<div class="ex"><b>' + esc(e[0]) + '</b><span>' + esc(e[1]) + '</span></div>'; });
-  }
-  if (l.tips){
-    h += '<h3>Para fijarlo</h3><div class="note"><ul class="tips">';
-    l.tips.forEach(function(t){ h += '<li>' + esc(t) + '</li>'; });
-    h += '</ul></div>';
-  }
-  h += '<button class="btn" data-go="#/q/' + i + '">Hacer los ejercicios</button>';
-  app.innerHTML = h;
-  window.scrollTo(0,0);
-}
 
-var Q = null;
-function startQuiz(list, title, idx){
-  Q = { title:title, idx:idx, i:0, score:0, answered:false,
-    list: list.map(function(e){
-      var opts = shuffle([e[1], e[2], e[3], e[4]]);
-      return { q:e[0], opts:opts, ok:e[1], why:e[5] };
-    }) };
-  quiz();
-}
-function quiz(){
-  var q = Q.list[Q.i], n = Q.list.length;
-  var back = Q.idx === null ? "#/" : "#/l/" + Q.idx;
-  var h = '<button class="back" data-go="' + back + '">‹ Salir</button>';
-  h += '<div class="qhead"><span>' + esc(Q.title) + '</span><span>Pregunta ' + (Q.i+1) + ' de ' + n + '</span></div>';
-  h += '<p class="q">' + esc(q.q) + '</p><div id="opts">';
-  q.opts.forEach(function(o,k){ h += '<button class="opt" data-k="' + k + '">' + esc(o) + '</button>'; });
-  h += '</div><div id="fb"></div>';
-  app.innerHTML = h;
-  window.scrollTo(0,0);
-  Array.prototype.forEach.call(document.querySelectorAll(".opt"), function(b){
-    b.onclick = function(){ answer(parseInt(b.getAttribute("data-k"),10)); };
+  function syncCard() {
+    var h = '<div class="sync"><h3>Sincronizar en la nube (opcional)</h3>';
+    if (!cloud.cfg) {
+      h += '<p class="muted">Aún no está activada. Tu progreso se guarda solo en este móvil. Para activarla sigue los pasos del archivo LEEME.md.</p>';
+    } else if (cloud.user) {
+      h += '<p>Sesión iniciada con <b>' + esc(cloud.user.email || '') + '</b>.</p>' +
+           '<button class="btn" id="s-now">Sincronizar ahora</button>' +
+           '<button class="btn ghost" id="s-logout">Cerrar sesión</button>';
+    } else {
+      h += '<p class="muted">Entra con tu correo para guardar tu progreso y usarlo en otros móviles.</p>' +
+           '<input type="email" id="s-email" placeholder="Correo electrónico" autocomplete="email" autocapitalize="none" spellcheck="false">' +
+           '<input type="password" id="s-pass" placeholder="Contraseña (mínimo 6 caracteres)" autocomplete="current-password">' +
+           '<button class="btn" id="s-login">Entrar</button>' +
+           '<button class="btn ghost" id="s-signup">Crear cuenta nueva</button>' +
+           '<button class="btn ghost" id="s-forgot">Olvidé mi contraseña</button>';
+    }
+    return h + '<p class="sync-msg" id="s-msg">' + esc(cloud.msg || '') + '</p></div>';
+  }
+
+  function doAuth(kind) {
+    var email = ($('s-email').value || '').trim(), pass = $('s-pass').value || '';
+    if (!email || !pass) { setMsg('Escribe tu correo y tu contraseña.', 'bad'); return; }
+    setMsg('Un momento…');
+    loadFirebase().then(function (m) {
+      return kind === 'signup'
+        ? m.auth.createUserWithEmailAndPassword(cloud.auth, email, pass)
+        : m.auth.signInWithEmailAndPassword(cloud.auth, email, pass);
+    }).catch(function (e) { setMsg(fbError(e), 'bad'); });
+  }
+
+  document.addEventListener('click', function (e) {
+    var t = e.target;
+    if (!t || !t.closest) return;
+    if (t.closest('#s-login')) { doAuth('login'); return; }
+    if (t.closest('#s-signup')) { doAuth('signup'); return; }
+    if (t.closest('#s-now')) { pull(); return; }
+    if (t.closest('#s-logout')) {
+      cloud.mods.auth.signOut(cloud.auth).then(function () { setMsg('Sesión cerrada.'); });
+      return;
+    }
+    if (t.closest('#s-forgot')) {
+      var email = ($('s-email').value || '').trim();
+      if (!email) { setMsg('Escribe tu correo y vuelve a pulsar este botón.', 'bad'); return; }
+      loadFirebase().then(function (m) { return m.auth.sendPasswordResetEmail(cloud.auth, email); })
+        .then(function () { setMsg('Te hemos enviado un correo para cambiar la contraseña.', 'ok'); })
+        .catch(function (err) { setMsg(fbError(err), 'bad'); });
+    }
   });
-}
-function answer(k){
-  if (Q.answered) return;
-  Q.answered = true;
-  var q = Q.list[Q.i], right = q.opts[k] === q.ok;
-  if (right) Q.score++;
-  Array.prototype.forEach.call(document.querySelectorAll(".opt"), function(b,j){
-    b.disabled = true;
-    if (q.opts[j] === q.ok) b.className += " ok";
-    else if (j === k) b.className += " bad";
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' && e.target && e.target.id === 's-pass') { doAuth('login'); }
   });
-  var last = Q.i === Q.list.length - 1;
-  document.getElementById("fb").innerHTML =
-    '<div class="fb ' + (right ? 'ok' : 'bad') + '"><b>' + (right ? '¡Correcto!' : 'Era: ' + esc(q.ok)) + '</b><br>' + esc(q.why) + '</div>' +
-    '<button class="btn" id="next">' + (last ? 'Ver resultado' : 'Siguiente') + '</button>';
-  document.getElementById("next").onclick = function(){
-    Q.answered = false;
-    if (last) result(); else { Q.i++; quiz(); }
-  };
-  document.getElementById("next").focus();
-}
-function result(){
-  var n = Q.list.length, s = Q.score, good = s / n >= 0.8;
-  if (Q.idx !== null){
-    var p = prog[Q.idx] || { best:0, total:n };
-    if (s >= p.best) { p.best = s; p.total = n; }
-    prog[Q.idx] = p; save();
-  }
-  var h = '<div class="score">' + s + ' / ' + n + '</div>';
-  h += '<p class="center">' + (good ? '¡Muy bien! Esta parte ya la dominas.' : 'Casi. Repasa la lección y vuelve a intentarlo: con 5 aciertos la das por dominada.') + '</p>';
-  if (Q.idx !== null){
-    h += '<button class="btn alt" data-go="#/l/' + Q.idx + '">Repasar la lección</button>';
-    h += '<button class="btn alt" id="again">Repetir ejercicios</button>';
-    if (good && Q.idx < L.length - 1) h += '<button class="btn" data-go="#/l/' + (Q.idx+1) + '">Siguiente lección</button>';
-    else if (good) h += '<button class="btn gold" data-go="#/r">Hacer el repaso general</button>';
-    h += '<button class="btn small" data-go="#/">Ir al inicio</button>';
-  } else {
-    h += '<button class="btn" id="again">Otro repaso</button><button class="btn small" data-go="#/">Ir al inicio</button>';
-  }
-  app.innerHTML = h;
-  window.scrollTo(0,0);
-  var a = document.getElementById("again");
-  if (a) a.onclick = function(){ route(); };
-}
+  document.addEventListener('visibilitychange', function () { if (!document.hidden && cloud.user) pull(); });
+  window.addEventListener('online', initCloud);
 
-/* ---------- Rutas ---------- */
-function route(){
-  var h = location.hash || "#/", m;
-  if (m = h.match(/^#\/l\/(\d+)$/)) { var i = +m[1]; if (L[i]) return lesson(i); }
-  if (m = h.match(/^#\/q\/(\d+)$/)) { var j = +m[1]; if (L[j]) return startQuiz(L[j].ex, "Lección " + (j+1), j); }
-  if (h === "#/r") {
-    var all = []; L.forEach(function(l){ all = all.concat(l.ex); });
-    return startQuiz(shuffle(all).slice(0,15), "Repaso general", null);
-  }
-  home();
-}
-document.addEventListener("click", function(e){
-  var t = e.target.closest("[data-go]");
-  if (t) { var g = t.getAttribute("data-go"); if (location.hash === g) route(); else location.hash = g; }
-});
-window.addEventListener("hashchange", route);
-route();
+  /* ---------- Inicio ---------- */
+  renderLesson();
+  updateChip();
+  initCloud();
 
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", function(){ navigator.serviceWorker.register("sw.js").catch(function(){}); });
-}
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', function () {
+      navigator.serviceWorker.register('sw.js').catch(function () {});
+    });
+  }
+})();
 </script>
 </body>
 </html>
