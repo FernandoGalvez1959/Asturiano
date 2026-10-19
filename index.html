@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#123C6B">
+<meta name="color-scheme" content="light">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Asturianu A1">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<title>Asturianu Básico A1</title>
+<style>
+:root{
+  --blue:#123C6B; --blue2:#1D5A9E; --gold:#E2A82B; --green:#2F6B4F; --greenbg:#E1F1E8;
+  --red:#A63A2B; --redbg:#FBE4DF; --bg:#F1F5F8; --card:#FFFFFF; --ink:#1B2733; --mute:#52606D; --line:#CBD5DE;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:19px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+.wrap{max-width:640px;margin:0 auto;padding:0 16px 48px}
+h1,h2,h3{font-family:Georgia,"Times New Roman",serif;line-height:1.2;margin:0}
+header.top{background:var(--blue);color:#fff;padding:22px 16px 20px;margin:0 -16px 20px}
+header.top .in{max-width:640px;margin:0 auto;display:flex;gap:16px;align-items:center}
+header.top svg{width:56px;height:56px;flex:none}
+header.top h1{font-size:30px}
+header.top p{margin:4px 0 0;color:#D6E3F2;font-size:17px}
+.bar{height:12px;background:#0B2A4C;border-radius:8px;overflow:hidden;margin-top:14px}
+.bar i{display:block;height:100%;background:var(--gold);border-radius:8px}
+.lesson-card{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--card);border:2px solid var(--line);
+  border-radius:16px;padding:14px 16px;margin:0 0 12px;font:inherit;color:inherit;min-height:76px;cursor:pointer}
+.lesson-card:focus-visible,.btn:focus-visible,.opt:focus-visible{outline:4px solid var(--gold);outline-offset:2px}
+.lesson-card .n{flex:none;width:44px;height:44px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font:700 22px Georgia,serif}
+.lesson-card.done .n{background:var(--green)}
+.lesson-card .t{font:700 21px/1.25 Georgia,serif}
+.lesson-card .s{font-size:16px;color:var(--mute);margin-top:2px}
+.lesson-card.done{border-color:var(--green)}
+.btn{display:block;width:100%;min-height:56px;border:0;border-radius:14px;background:var(--blue2);color:#fff;font:600 20px system-ui,sans-serif;padding:12px 18px;margin:12px 0;cursor:pointer;text-align:center}
+.btn.alt{background:#fff;color:var(--blue);border:2px solid var(--blue)}
+.btn.gold{background:var(--gold);color:#241a00}
+.btn.small{min-height:44px;font-size:16px;font-weight:500;background:transparent;color:var(--mute);border:1px solid var(--line)}
+.back{background:none;border:0;color:var(--blue2);font:600 18px system-ui,sans-serif;padding:14px 0;cursor:pointer;min-height:48px}
+h2.lt{font-size:28px;margin:4px 0 6px}
+.intro{margin:0 0 8px}
+h3{font-size:22px;margin:28px 0 10px;color:var(--blue)}
+.vocab{background:var(--card);border:2px solid var(--line);border-radius:16px;padding:4px 16px}
+.vocab .r{padding:12px 0;border-bottom:1px solid #E3E9EE}
+.vocab .r:last-child{border-bottom:0}
+.vocab .a{font:700 23px/1.25 Georgia,serif;color:var(--blue)}
+.vocab .e{font-size:17px;color:var(--mute)}
+table.t{width:100%;border-collapse:collapse;background:var(--card);border:2px solid var(--line);border-radius:12px;overflow:hidden;margin:10px 0}
+table.t caption{text-align:left;font:700 20px Georgia,serif;padding:4px 0 8px;color:var(--ink)}
+table.t td{padding:10px 14px;border-top:1px solid #E3E9EE;font-size:20px}
+table.t td:last-child{font-weight:700;color:var(--blue)}
+.ex{background:var(--card);border-left:6px solid var(--gold);border-radius:6px;padding:10px 14px;margin:0 0 10px}
+.ex b{font:700 21px Georgia,serif;color:var(--blue);display:block}
+.ex span{color:var(--mute);font-size:17px}
+ul.tips{margin:0;padding-left:22px}
+ul.tips li{margin:0 0 10px}
+.note{background:#FFF6DD;border:2px solid #F0D58A;border-radius:14px;padding:12px 16px;margin-top:14px}
+.qhead{display:flex;justify-content:space-between;color:var(--mute);font-size:17px;margin:6px 0 12px}
+.q{font:700 25px/1.3 Georgia,serif;margin:0 0 16px}
+.opt{display:block;width:100%;text-align:left;min-height:60px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:12px 16px;margin:0 0 12px;font:600 22px system-ui,sans-serif;color:var(--ink);cursor:pointer}
+.opt.ok{background:var(--greenbg);border-color:var(--green)}
+.opt.bad{background:var(--redbg);border-color:var(--red)}
+.opt[disabled]{cursor:default}
+.fb{border-radius:14px;padding:12px 16px;margin:6px 0;font-size:19px}
+.fb.ok{background:var(--greenbg);color:#173D2B}
+.fb.bad{background:var(--redbg);color:#5A1E15}
+.score{font:700 54px Georgia,serif;color:var(--blue);text-align:center;margin:20px 0 4px}
+.center{text-align:center}
+.foot{margin-top:28px}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+
+<script>
+/* ---------- Contenido ---------- */
+var L = [
+{
+ t:"Saludos y presentaciones", s:"Hola, gracies, cómo te llames",
+ intro:"El asturiano (asturianu) se parece mucho al castellano, así que vas a reconocer casi todo. Empiezas por lo más útil: saludar, dar las gracias y decir cómo te llamas.",
+ vocab:[["Hola","Hola"],["Bonos díes","Buenos días"],["Bones tardes","Buenas tardes"],["Bones nueches","Buenas noches"],["Adiós","Adiós"],["Hasta mañana","Hasta mañana"],["Por favor","Por favor"],["Gracies","Gracias"],["Munches gracies","Muchas gracias"],["De nada","De nada"],["Sí / Non","Sí / No"],["¿Cómo te llames?","¿Cómo te llamas?"],["Llámome Fer","Me llamo Fer"],["¿Cómo tas?","¿Cómo estás?"],["Toi bien","Estoy bien"],["Encantáu / Encantada","Encantado / Encantada"]],
+ tips:["Los plurales femeninos acaban en -es: una gracia, munches gracies.","“Non” es el “no” asturiano.","La x suena como la “sh” de “shock”: Xixón (Gijón) suena parecido a “Shishón”.","Llámome: el pronombre va pegado al final del verbo (llamo + me). Es muy típico del asturiano."],
+ ex:[
+  ["¿Cómo se dice “gracias”?","Gracies","Gracias","Grazas","Gracios","En asturiano el plural femenino acaba en -es: gracies. (“Grazas” es gallego)."],
+  ["¿Cómo se dice “no”?","Non","Nom","Nao","Nó","“Non” es el no asturiano."],
+  ["“Me llamo Fer” se dice…","Llámome Fer","Me llamo Fer","Llamo-me Fer","Yo llame Fer","El pronombre va pegado al verbo: llámome."],
+  ["“¿Cómo estás?” se dice…","¿Cómo tas?","¿Cómo estás?","¿Cómo yes?","¿Cómo tais?","“Tas” es la forma de tu del verbo estar."],
+  ["“Buenos días” se dice…","Bonos díes","Buenos díes","Bonos días","Bons dies","Bonos (masculino plural) y díes (plural en -es)."],
+  ["“Muchas gracias” se dice…","Munches gracies","Muchas gracias","Munchas gracias","Muitas gracies","Munches: es el femenino plural de munchu (mucho)."]
+ ]
+},
+{
+ t:"Yo, tu, él: ser y estar", s:"Pronombres y los verbos ye / ta",
+ intro:"Igual que en castellano, hay dos verbos: ser (para identidad y origen) y estar (para estados y lugares). Apréndete las formas, que se usan en todas las frases.",
+ vocab:[["yo","yo"],["tu","tú"],["él / ella","él / ella"],["nós","nosotros"],["vós","vosotros"],["ellos / elles","ellos / ellas"]],
+ tables:[{c:"Ser",r:[["yo","soi"],["tu","yes"],["él / ella","ye"],["nós","somos"],["vós","sois"],["ellos / elles","son"]]},{c:"Estar",r:[["yo","toi"],["tu","tas"],["él / ella","ta"],["nós","tamos"],["vós","tais"],["ellos / elles","tán"]]}],
+ ej:[["Yo soi de Xixón.","Yo soy de Gijón."],["Ella ye d’Uviéu.","Ella es de Oviedo."],["Nós tamos equí.","Nosotros estamos aquí."],["¿Cómo tais?","¿Cómo estáis?"]],
+ tips:["Delante de vocal, “de” se acorta: d’Uviéu (de Oviedo).","Oviedo es Uviéu y Gijón es Xixón: los nombres de lugar cambien un poco.","Ojo con tu yes (tú eres) y él ye (él es): parecidas pero distintas."],
+ ex:[
+  ["“Yo soy” se dice…","Soi","Yes","Ye","Somos","Soi es la forma de yo del verbo ser."],
+  ["“Tú eres” se dice…","Yes","Soi","Ye","Sois","Tu yes."],
+  ["“Ella es de Oviedo” se dice…","Ella ye d’Uviéu","Ella yes d’Uviéu","Ella ta d’Uviéu","Ella soi d’Uviéu","Para él/ella de ser se usa ye. Oviedo es Uviéu."],
+  ["“Nosotros estamos bien”…","Nós tamos bien","Nós somos bien","Nós toi bien","Nós tais bien","Tamos es la forma de nós del verbo estar."],
+  ["“Ellos están”…","Ellos tán","Ellos ta","Ellos son","Ellos tamos","Ellos tán."],
+  ["“Vosotros estáis”…","Vós tais","Vós sois","Vós tamos","Vós tas","Tais es vós de estar; sois es vós de ser."]
+ ]
+},
+{
+ t:"Números y díes de la selmana", s:"Del 1 al 12 y los días",
+ intro:"Los números son casi iguales que en castellano. Los días de la semana (selmana) cambian algo más: fíjate en los que empiezan por ll- y x-.",
+ vocab:[["ún / una","uno / una"],["dos","dos"],["tres","tres"],["cuatro","cuatro"],["cinco","cinco"],["seis","seis"],["siete","siete"],["ocho","ocho"],["nueve","nueve"],["diez","diez"],["once","once"],["doce","doce"],["llunes","lunes"],["martes","martes"],["miércoles","miércoles"],["xueves","jueves"],["vienres","viernes"],["sábadu","sábado"],["domingu","domingo"]],
+ tips:["Para el género: un llibru (masculino), una casa (femenina).","Martes y miércoles son iguales que en castellano; cambien llunes, xueves, vienres, sábadu y domingu.","Los días masculinos acaban en -u cuando terminan en -o en castellano: sábadu, domingu."],
+ ex:[
+  ["¿Qué cifra es “siete”?","7","6","8","9","Siete = 7."],
+  ["¿Qué cifra es “diez”?","10","9","11","12","Diez = 10."],
+  ["Tres y dos son…","cinco","cuatro","seis","siete","3 + 2 = cinco."],
+  ["“Lunes” se dice…","Llunes","Lunes","Llunas","Lluns","Las palabras que en castellano empiezan por l- suelen empezar por ll- en asturiano."],
+  ["“Jueves” se dice…","Xueves","Jueves","Xuebes","Xeves","Xueves, con x (suena como “sh”)."],
+  ["“Domingo” se dice…","Domingu","Domingo","Dominga","Domengu","Los masculinos acaban en -u: domingu."]
+ ]
+},
+{
+ t:"Los artículos y el plural", s:"el, la, los, les",
+ intro:"En asturiano los nombres masculinos acaban en -u y los femeninos en -a. El plural masculino acaba en -os y el femenino en -es. Eso es casi todo lo que necesitas.",
+ vocab:[["el llibru / los llibros","el libro / los libros"],["la casa / les cases","la casa / las casas"],["el neñu / los neños","el niño / los niños"],["la neña / les neñes","la niña / las niñas"],["el perru / los perros","el perro / los perros"],["el gatu / los gatos","el gato / los gatos"],["la mesa / les meses","la mesa / las mesas"],["la ventana / les ventanes","la ventana / las ventanas"],["la puerta / les puertes","la puerta / las puertas"],["el pueblu / los pueblos","el pueblo / los pueblos"]],
+ tables:[{c:"Artículos",r:[["el","masculino singular"],["la","femenino singular"],["los","masculino plural"],["les","femenino plural"],["lo","neutro (lo bono = lo bueno)"]]}],
+ tips:["Muchas palabras que en castellano empiezan por l- empiezan por ll- en asturiano: llibru, lleche, llingua.","El femenino plural se forma con -es: la neña → les neñes.","La ñ también aparece en palabras como neñu (niño)."],
+ ex:[
+  ["“El libro” se dice…","El llibru","El libro","La llibru","El llibro","Llibru: empieza por ll- y acaba en -u."],
+  ["“Las casas” se dice…","Les cases","Les casas","Los cases","Les casos","Femenino plural: les + nombre en -es."],
+  ["Plural de “la neña”:","Les neñes","Les neñas","Los neñes","Les neños","Les neñes."],
+  ["Plural de “el perru”:","Los perros","Los perrus","Les perros","Les perres","Masculino plural: los + -os."],
+  ["Plural de “la ventana”:","Les ventanes","Les ventanas","Los ventanes","Les ventanos","Les ventanes."],
+  ["“El gato” se dice…","El gatu","El gato","La gatu","El gate","Los masculinos acaban en -u: gatu."]
+ ]
+},
+{
+ t:"La familia", s:"fíu, güela, el mio padre",
+ intro:"Las palabras de familia se reconocen fácil. Además aprendes “mi, tu, su”, que en asturiano son mio, to y so: no cambian entre masculino y femenino.",
+ vocab:[["madre / padre","madre / padre"],["mamá / pá","mamá / papá"],["hermanu / hermana","hermano / hermana"],["fíu / fía","hijo / hija"],["güelu / güela","abuelo / abuela"],["tíu / tía","tío / tía"],["primu / prima","primo / prima"],["amigu / amiga","amigo / amiga"],["mio","mi"],["to","tu"],["so","su"]],
+ ej:[["El mio padre ye de Xixón.","Mi padre es de Gijón."],["La to güela ta bien.","Tu abuela está bien."],["El so fíu vive n’Asturies.","Su hijo vive en Asturias."]],
+ tips:["Mio, to y so valen para masculino y femenino: el mio padre, la mio madre.","Fíu y fía conservan la f- del latín; en castellano esa f- se perdió (hijo).","Los masculinos de persona acaban en -u: hermanu, güelu, tíu, primu, amigu."],
+ ex:[
+  ["“Mi hermano” se dice…","El mio hermanu","El mi hermano","La mio hermanu","El mio hermano","Mio + hermanu (acaba en -u)."],
+  ["“Tu madre” se dice…","La to madre","La tu madre","El to madre","La tua madre","To es “tu” en asturiano."],
+  ["“Su amigo” se dice…","El so amigu","El su amigo","La so amigu","El soi amigu","So es “su”."],
+  ["“Abuela” se dice…","Güela","Abuela","Güelo","Guela","Güelu / güela."],
+  ["“Hijo” se dice…","Fíu","Hijo","Fillu","Fiu","Fíu, con la f- del latín."],
+  ["“Tío” se dice…","Tíu","Tío","Tiu","Tíe","Tíu / tía."]
+ ]
+},
+{
+ t:"Comer y beber", s:"Pan, lleche, sidra y fabes",
+ intro:"Vocabulario para el bar y la cocina. En Asturias la sidra es casi un idioma aparte.",
+ vocab:[["el pan","el pan"],["la lleche","la leche"],["l’agua","el agua"],["el café","el café"],["la sidra","la sidra"],["el quesu","el queso"],["les fabes","las fabes (alubias)"],["la carne","la carne"],["el pexe","el pescado"],["la fruta","la fruta"],["la mazana","la manzana"],["la sal","la sal"],["l’azucre","el azúcar"],["Quiero un café","Quiero un café"],["Tengo fame","Tengo hambre"],["Tengo sede","Tengo sed"],["La cuenta, por favor","La cuenta, por favor"]],
+ tips:["Delante de vocal, “la” y “el” se acortan: l’agua, l’azucre.","El asturiano mantiene la f- latina en palabras como fame (hambre).","Cultura: la sidra se escancia, echándola desde arriba para que gane burbuja. Lo que se sirve cada vez es un culín."],
+ ex:[
+  ["“Leche” se dice…","Lleche","Leche","Llechi","Lleite","Empieza por ll-: lleche."],
+  ["“Queso” se dice…","Quesu","Queso","Quisu","Cheso","Quesu, acabado en -u."],
+  ["“Pescado” se dice…","Pexe","Pescáu","Peixe","Pesque","Pexe: con x."],
+  ["“Manzana” se dice…","Mazana","Manzana","Mazanu","Manzaña","Mazana, sin n."],
+  ["“Tengo hambre” se dice…","Tengo fame","Tengo hambre","Tengo fami","Tengo fome","Fame mantiene la f-."],
+  ["“Azúcar” se dice…","Azucre","Azúcar","Azuque","Zucre","Azucre."]
+ ]
+},
+{
+ t:"Verbos regulares", s:"falar, comer, vivir",
+ intro:"Hay tres grupos de verbos: -ar, -er e -ir. Aprendiendo uno de cada grupo, sabes conjugar casi todos.",
+ vocab:[["falar","hablar"],["comer","comer"],["vivir","vivir"],["trabayar","trabajar"],["beber","beber"],["escribir","escribir"],["lleer","leer"]],
+ tables:[{c:"falar (hablar)",r:[["yo","falo"],["tu","fales"],["él / ella","fala"],["nós","falamos"],["vós","faláis"],["ellos / elles","falen"]]},{c:"comer",r:[["yo","como"],["tu","comes"],["él / ella","come"],["nós","comemos"],["vós","coméis"],["ellos / elles","comen"]]},{c:"vivir",r:[["yo","vivo"],["tu","vives"],["él / ella","vive"],["nós","vivimos"],["vós","vivís"],["ellos / elles","viven"]]}],
+ ej:[["Yo falo asturianu.","Yo hablo asturiano."],["Nós comemos pan.","Nosotros comemos pan."],["Elles viven n’Asturies.","Ellas viven en Asturias."],["Tu trabayes en Xixón.","Tú trabajas en Gijón."]],
+ tips:["Terminaciones: -o, -es, -e, -amos/-emos/-imos, -áis/-éis/-ís, -en.","En la forma de vós llevan tilde: faláis, coméis, vivís.","El verbo falar es el “hablar”. Por eso al asturiano también se le llama “la fala”."],
+ ex:[
+  ["“Yo hablo” se dice…","Falo","Falu","Fala","Falas","Falo: yo."],
+  ["“Tú comes” se dice…","Comes","Come","Comemos","Como","Tu comes."],
+  ["“Ella vive” se dice…","Vive","Vives","Vivo","Viven","Él/ella vive."],
+  ["“Nosotros hablamos” se dice…","Falamos","Falemos","Falan","Falo","Falamos."],
+  ["“Ellos comen” se dice…","Comen","Come","Comes","Comemos","Ellos comen."],
+  ["“Vosotros vivís” se dice…","Vivís","Vives","Viven","Vivimos","Vós vivís."]
+ ]
+},
+{
+ t:"Lugares y direcciones", s:"na playa, nel pueblu, ónde ta",
+ intro:"Para moverte por Asturias: nombres de lugares, cómo preguntar dónde está algo y las contracciones con “en”, que son muy típicas.",
+ vocab:[["la casa","la casa"],["el pueblu","el pueblo"],["la ciudá","la ciudad"],["la playa","la playa"],["la mar","el mar"],["el monte","el monte"],["el ríu","el río"],["la plaza","la plaza"],["la ilesia","la iglesia"],["la tienda","la tienda"],["el mercáu","el mercado"],["a la derecha","a la derecha"],["a la izquierda","a la izquierda"],["equí","aquí"],["ellí","allí"],["¿Ónde ta…?","¿Dónde está…?"]],
+ tables:[{c:"Ir",r:[["yo","voi"],["tu","vas"],["él / ella","va"],["nós","vamos"],["vós","vais"],["ellos / elles","van"]]},{c:"Contracciones con “en”",r:[["en + el","nel"],["en + la","na"],["en + los","nos"],["en + les","nes"],["en + vocal","n’"]]}],
+ ej:[["¿Ónde ta la playa?","¿Dónde está la playa?"],["La playa ta ellí.","La playa está allí."],["Voi a Xixón.","Voy a Gijón."],["Toi na plaza.","Estoy en la plaza."],["Vivo nel pueblu.","Vivo en el pueblo."]],
+ tips:["“Na playa” es “en la playa”; “nel pueblu” es “en el pueblo”.","Las palabras que acaban en -ad en castellano acaban en -á: ciudá, verdá, llibertá.","“Ónde ta…?” es la pregunta más útil para orientarte."],
+ ex:[
+  ["“Iglesia” se dice…","Ilesia","Iglesia","Ilexa","Iglesa","Ilesia, sin la g."],
+  ["“Ciudad” se dice…","Ciudá","Ciudad","Ciudau","Ciudaz","Las palabras en -ad acaban en -á: ciudá."],
+  ["“En la playa” se dice…","Na playa","En la playa","Nel playa","Nes playa","En + la = na."],
+  ["“Voy a Gijón” se dice…","Voi a Xixón","Voy a Gijón","Vo a Xixón","Voi a Xijón","Voi (yo de ir) y Xixón."],
+  ["“¿Dónde está?” se dice…","¿Ónde ta?","¿Dónde está?","¿Ónde yes?","¿Ónde tai?","Ónde = dónde; ta = está."],
+  ["“Allí” se dice…","Ellí","Allí","Ehí","Allá","Ellí."]
+ ]
+}
+];
+
+/* ---------- Utilidades ---------- */
+var app = document.getElementById("app");
+var KEY = "asturiano-a1-progreso";
+var prog = {};
+try { prog = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch(e) { prog = {}; }
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(prog)); } catch(e) {} }
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]; }); }
+function shuffle(a){ a = a.slice(); for (var i=a.length-1;i>0;i--){ var j=Math.floor(Math.random()*(i+1)); var t=a[i]; a[i]=a[j]; a[j]=t; } return a; }
+var CROSS = '<svg viewBox="0 0 100 100" aria-hidden="true"><polygon fill="#E2A82B" points="38,4 62,4 55,24 55,76 62,96 38,96 45,76 45,24"/><polygon fill="#E2A82B" points="4,38 4,62 24,55 76,55 96,62 96,38 76,45 24,45"/></svg>';
+function mastered(i){ var p = prog[i]; return p && p.best / p.total >= 0.8; }
+
+/* ---------- Pantallas ---------- */
+function home(){
+  var done = 0; L.forEach(function(_,i){ if (mastered(i)) done++; });
+  var h = '<header class="top"><div class="in">' + CROSS + '<div><h1>Asturianu Básico A1</h1><p>8 lecciones para empezar desde cero</p></div></div>' +
+    '<div class="in"><div class="bar" style="flex:1" role="progressbar" aria-valuemin="0" aria-valuemax="8" aria-valuenow="' + done + '"><i style="width:' + (done/8*100) + '%"></i></div></div>' +
+    '<div class="in"><p>' + done + ' de 8 lecciones dominadas</p></div></header>';
+  L.forEach(function(l,i){
+    var p = prog[i];
+    var st = p ? (mastered(i) ? "Dominada · " : "A repasar · ") + p.best + " de " + p.total : l.s;
+    h += '<button class="lesson-card' + (mastered(i) ? ' done' : '') + '" data-go="#/l/' + i + '"><span class="n">' + (mastered(i) ? '✓' : (i+1)) + '</span><span><div class="t">' + esc(l.t) + '</div><div class="s">' + esc(st) + '</div></span></button>';
+  });
+  h += '<button class="btn gold" data-go="#/r">Repaso general (15 preguntas)</button>';
+  h += '<div class="foot center"><button class="btn small" id="reset">Borrar mi progreso</button></div>';
+  app.innerHTML = h;
+  var r = document.getElementById("reset");
+  if (r) r.onclick = function(){ if (confirm("¿Borrar todo tu progreso?")) { prog = {}; save(); home(); } };
+}
+
+function lesson(i){
+  var l = L[i], h = '<button class="back" data-go="#/">‹ Todas las lecciones</button>';
+  h += '<h2 class="lt">' + (i+1) + '. ' + esc(l.t) + '</h2><p class="intro">' + esc(l.intro) + '</p>';
+  if (l.vocab){
+    h += '<h3>Vocabulario</h3><div class="vocab">';
+    l.vocab.forEach(function(v){ h += '<div class="r"><div class="a">' + esc(v[0]) + '</div><div class="e">' + esc(v[1]) + '</div></div>'; });
+    h += '</div>';
+  }
+  if (l.tables){
+    l.tables.forEach(function(t){
+      h += '<table class="t"><caption>' + esc(t.c) + '</caption>';
+      t.r.forEach(function(r){ h += '<tr><td>' + esc(r[0]) + '</td><td>' + esc(r[1]) + '</td></tr>'; });
+      h += '</table>';
+    });
+  }
+  if (l.ej){
+    h += '<h3>Ejemplos</h3>';
+    l.ej.forEach(function(e){ h += '<div class="ex"><b>' + esc(e[0]) + '</b><span>' + esc(e[1]) + '</span></div>'; });
+  }
+  if (l.tips){
+    h += '<h3>Para fijarlo</h3><div class="note"><ul class="tips">';
+    l.tips.forEach(function(t){ h += '<li>' + esc(t) + '</li>'; });
+    h += '</ul></div>';
+  }
+  h += '<button class="btn" data-go="#/q/' + i + '">Hacer los ejercicios</button>';
+  app.innerHTML = h;
+  window.scrollTo(0,0);
+}
+
+var Q = null;
+function startQuiz(list, title, idx){
+  Q = { title:title, idx:idx, i:0, score:0, answered:false,
+    list: list.map(function(e){
+      var opts = shuffle([e[1], e[2], e[3], e[4]]);
+      return { q:e[0], opts:opts, ok:e[1], why:e[5] };
+    }) };
+  quiz();
+}
+function quiz(){
+  var q = Q.list[Q.i], n = Q.list.length;
+  var back = Q.idx === null ? "#/" : "#/l/" + Q.idx;
+  var h = '<button class="back" data-go="' + back + '">‹ Salir</button>';
+  h += '<div class="qhead"><span>' + esc(Q.title) + '</span><span>Pregunta ' + (Q.i+1) + ' de ' + n + '</span></div>';
+  h += '<p class="q">' + esc(q.q) + '</p><div id="opts">';
+  q.opts.forEach(function(o,k){ h += '<button class="opt" data-k="' + k + '">' + esc(o) + '</button>'; });
+  h += '</div><div id="fb"></div>';
+  app.innerHTML = h;
+  window.scrollTo(0,0);
+  Array.prototype.forEach.call(document.querySelectorAll(".opt"), function(b){
+    b.onclick = function(){ answer(parseInt(b.getAttribute("data-k"),10)); };
+  });
+}
+function answer(k){
+  if (Q.answered) return;
+  Q.answered = true;
+  var q = Q.list[Q.i], right = q.opts[k] === q.ok;
+  if (right) Q.score++;
+  Array.prototype.forEach.call(document.querySelectorAll(".opt"), function(b,j){
+    b.disabled = true;
+    if (q.opts[j] === q.ok) b.className += " ok";
+    else if (j === k) b.className += " bad";
+  });
+  var last = Q.i === Q.list.length - 1;
+  document.getElementById("fb").innerHTML =
+    '<div class="fb ' + (right ? 'ok' : 'bad') + '"><b>' + (right ? '¡Correcto!' : 'Era: ' + esc(q.ok)) + '</b><br>' + esc(q.why) + '</div>' +
+    '<button class="btn" id="next">' + (last ? 'Ver resultado' : 'Siguiente') + '</button>';
+  document.getElementById("next").onclick = function(){
+    Q.answered = false;
+    if (last) result(); else { Q.i++; quiz(); }
+  };
+  document.getElementById("next").focus();
+}
+function result(){
+  var n = Q.list.length, s = Q.score, good = s / n >= 0.8;
+  if (Q.idx !== null){
+    var p = prog[Q.idx] || { best:0, total:n };
+    if (s >= p.best) { p.best = s; p.total = n; }
+    prog[Q.idx] = p; save();
+  }
+  var h = '<div class="score">' + s + ' / ' + n + '</div>';
+  h += '<p class="center">' + (good ? '¡Muy bien! Esta parte ya la dominas.' : 'Casi. Repasa la lección y vuelve a intentarlo: con 5 aciertos la das por dominada.') + '</p>';
+  if (Q.idx !== null){
+    h += '<button class="btn alt" data-go="#/l/' + Q.idx + '">Repasar la lección</button>';
+    h += '<button class="btn alt" id="again">Repetir ejercicios</button>';
+    if (good && Q.idx < L.length - 1) h += '<button class="btn" data-go="#/l/' + (Q.idx+1) + '">Siguiente lección</button>';
+    else if (good) h += '<button class="btn gold" data-go="#/r">Hacer el repaso general</button>';
+    h += '<button class="btn small" data-go="#/">Ir al inicio</button>';
+  } else {
+    h += '<button class="btn" id="again">Otro repaso</button><button class="btn small" data-go="#/">Ir al inicio</button>';
+  }
+  app.innerHTML = h;
+  window.scrollTo(0,0);
+  var a = document.getElementById("again");
+  if (a) a.onclick = function(){ route(); };
+}
+
+/* ---------- Rutas ---------- */
+function route(){
+  var h = location.hash || "#/", m;
+  if (m = h.match(/^#\/l\/(\d+)$/)) { var i = +m[1]; if (L[i]) return lesson(i); }
+  if (m = h.match(/^#\/q\/(\d+)$/)) { var j = +m[1]; if (L[j]) return startQuiz(L[j].ex, "Lección " + (j+1), j); }
+  if (h === "#/r") {
+    var all = []; L.forEach(function(l){ all = all.concat(l.ex); });
+    return startQuiz(shuffle(all).slice(0,15), "Repaso general", null);
+  }
+  home();
+}
+document.addEventListener("click", function(e){
+  var t = e.target.closest("[data-go]");
+  if (t) { var g = t.getAttribute("data-go"); if (location.hash === g) route(); else location.hash = g; }
+});
+window.addEventListener("hashchange", route);
+route();
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", function(){ navigator.serviceWorker.register("sw.js").catch(function(){}); });
+}
+</script>
+</body>
+</html>

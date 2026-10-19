@@ -1,0 +1,15 @@
+{
+  "name": "Asturianu Básico A1",
+  "short_name": "Asturianu A1",
+  "description": "Curso de asturiano para principiantes (A1) con 8 lecciones y ejercicios.",
+  "lang": "es",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#123C6B",
+  "theme_color": "#123C6B",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
