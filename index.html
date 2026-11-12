@@ -212,7 +212,7 @@
   nav .inner { display: flex; width: 100%; max-width: 640px; }
   nav button {
     flex: 1; border: 0; background: transparent; color: var(--muted);
-    padding: 10px 4px; min-height: 68px; font-size: 15px; font-weight: 600;
+    padding: 10px 2px; min-height: 68px; font-size: 14px; font-weight: 600;
     display: flex; flex-direction: column; align-items: center; gap: 2px;
   }
   nav button .ic { font-size: 24px; line-height: 1; }
@@ -235,6 +235,7 @@
   <section id="v-tarjetas" hidden></section>
   <section id="v-practica" hidden></section>
   <section id="v-plan" hidden></section>
+  <section id="v-datos" hidden></section>
 </main>
 
 <nav aria-label="Secciones">
@@ -243,6 +244,7 @@
     <button data-tab="tarjetas"><span class="ic">🗂️</span>Tarjetas</button>
     <button data-tab="practica"><span class="ic">✏️</span>Práctica</button>
     <button data-tab="plan"><span class="ic">🧭</span>Plan</button>
+    <button data-tab="datos"><span class="ic">☁️</span>Datos</button>
   </div>
 </nav>
 
@@ -334,7 +336,7 @@
   }
 
   /* ---------- Navegación ---------- */
-  var tabs = ['aprender', 'tarjetas', 'practica', 'plan'];
+  var tabs = ['aprender', 'tarjetas', 'practica', 'plan', 'datos'];
   var quiz = null, cardIdx = 0, flipped = false, curTab = 'aprender';
 
   function show(tab) {
@@ -347,6 +349,7 @@
     if (tab === 'tarjetas') renderCards();
     if (tab === 'practica') renderPracticeHome();
     if (tab === 'plan') renderPlan();
+    if (tab === 'datos') renderDatos();
     window.scrollTo(0, 0);
   }
   function setLesson(i) {
@@ -561,9 +564,13 @@
            '<span class="n">' + (done ? '✓' : (open ? (i + 1) : '🔒')) + '</span>' +
            '<span><span style="display:block"><b>' + (i + 1) + '. ' + esc(lesson.title) + '</b></span><span class="state">' + st + '</span></span></button>';
     });
-    h += syncCard();
-    h += '<button class="btn ghost" id="reset" style="margin-top:28px">Borrar mi progreso</button>';
     $('v-plan').innerHTML = h;
+  }
+  function renderDatos() {
+    $('v-datos').innerHTML = '<h2>Datos</h2>' + syncCard();
+  }
+  function refreshData() {
+    if (curTab === 'plan') renderPlan(); else if (curTab === 'datos') renderDatos();
   }
 
   /* ---------- Eventos ---------- */
@@ -575,9 +582,10 @@
     var les = t.closest('[data-lesson]');
     if (les) { setLesson(+les.dataset.lesson); show('aprender'); return; }
     if (t.closest('#reset')) {
-      if (confirm('¿Seguro que quieres borrar todo tu progreso?')) {
+      if (confirm('¿Seguro que quieres borrar todo tu progreso? Antes se descargará una copia, por si te arrepientes.')) {
+        exportProgress(true);
         state = { cur: 0, best: {}, passed: {}, known: {}, epoch: (state.epoch || 0) + 1, updatedAt: 0 }; quiz = null; cardIdx = 0; flipped = false;
-        save(); updateChip(); renderPlan();
+        save(); updateChip(); refreshData();
       }
       return;
     }
@@ -662,9 +670,8 @@
     el.hidden = false; el.textContent = txt; el.className = 'syncbar ' + cls;
   }
   function setMsg(m, kind, local) {
-    cloud.msg = m;
-    if (!local) cloud.status = kind === 'ok' ? 'ok' : kind === 'bad' ? 'bad' : (m ? 'busy' : '');
-    var el = $('s-msg');
+    if (!local) { cloud.msg = m; cloud.status = kind === 'ok' ? 'ok' : kind === 'bad' ? 'bad' : (m ? 'busy' : ''); }
+    var el = $(local ? 'b-msg' : 's-msg');
     if (el) { el.textContent = m; el.className = 'sync-msg' + (kind ? ' ' + kind : ''); }
     updateSyncBar();
   }
@@ -734,7 +741,7 @@
     if (!unlocked(state.cur)) state.cur = 0;
     save(true);
     updateChip();
-    if (curTab === 'plan') renderPlan(); else if (curTab === 'aprender') renderLesson();
+    refreshData(); if (curTab === 'aprender') renderLesson();
   }
 
   function push() {
@@ -774,18 +781,18 @@
           else localStorage.removeItem(APP.id + '-cuenta');
         } catch (e) {}
         if (u) pull(); else setMsg('');
-        if (curTab === 'plan') renderPlan();
+        refreshData();
         updateSyncBar();
       });
     }).catch(function () {
       cloud.offline = true;
       setMsg('Sin conexión: tu progreso se guarda en este móvil y se sincronizará cuando haya internet.');
-      if (curTab === 'plan') renderPlan();
+      refreshData();
     });
   }
 
   function syncCard() {
-    var h = '<div class="sync"><h3>Sincronizar en la nube</h3>';
+    var h = '<div class="sync"><h3>Sincronización</h3>';
     if (!cloud.cfg) {
       h += '<p class="muted">Aún no está activada: falta pegar la configuración de tu proyecto de Firebase en el archivo firebase-config.js (mira LEEME.md). Mientras tanto, tu progreso se guarda en este móvil.</p>';
     } else if (cloud.user) {
@@ -805,13 +812,18 @@
            '<button class="btn ghost" id="s-forgot" type="button">Olvidé mi contraseña</button>' +
            '</form>';
     }
-    h += '<h3 style="margin-top:24px">Copia de seguridad en archivo</h3>' +
-         '<p class="muted">El archivo se llama «Asturianu-Basico-A1» con la fecha y la hora. Con la copia automática, al abrir la app se descarga una al día si ya has avanzado.</p>' +
+    h += '<p class="sync-msg" id="s-msg">' + esc(cloud.msg || '') + '</p>';
+    h += '<h3 style="margin-top:28px">Copia de seguridad</h3>' +
+         '<p class="muted">El archivo se llama «Asturiano básico 1» seguido de la fecha (aaaammdd). Con la copia automática, al abrir la app se descarga una al día si ya has avanzado.</p>' +
          '<button class="btn ghost" id="b-export">Descargar mi progreso</button>' +
          '<button class="btn ghost" id="b-import">Cargar un archivo de progreso</button>' +
          '<button class="btn ghost" id="b-auto">Copia automática al abrir: ' + (autoOn() ? 'activada' : 'desactivada') + '</button>' +
          '<input type="file" id="b-file" accept=".json,application/json" hidden>';
-    return h + '<p class="sync-msg" id="s-msg">' + esc(cloud.msg || '') + '</p></div>';
+    h += '<p class="sync-msg" id="b-msg"></p>';
+    h += '<h3 style="margin-top:28px">Borrar</h3>' +
+         '<p class="muted">Borra tu progreso en este móvil y, si estás sincronizado, también en la nube. Antes se descarga una copia.</p>' +
+         '<button class="btn ghost" id="reset">Borrar mi progreso</button>';
+    return h + '</div>';
   }
 
   function doAuth(kind) {
@@ -828,7 +840,7 @@
   document.addEventListener('click', function (e) {
     var t = e.target;
     if (!t || !t.closest) return;
-    if (t.closest('#syncbar')) { show('plan'); return; }
+    if (t.closest('#syncbar')) { show('datos'); return; }
     if (t.closest('#s-signup')) { doAuth('signup'); return; }
     if (t.closest('#s-now')) { pull(); return; }
     if (t.closest('#s-logout')) {
@@ -847,9 +859,10 @@
     if (e.target && e.target.id === 's-form') { e.preventDefault(); doAuth('login'); }
   });
   /* ---------- Copia de seguridad en archivo ---------- */
-  var FILE_NAME = 'Asturianu-Basico-A1';
+  var FILE_NAME = 'Asturiano básico 1';
   var AUTO_KEY = APP.id + '-copia-auto', LAST_KEY = APP.id + '-copia-ultima';
   function z2(n) { return (n < 10 ? '0' : '') + n; }
+  function dayCompact() { var d = new Date(); return '' + d.getFullYear() + z2(d.getMonth() + 1) + z2(d.getDate()); }
   function dayStamp() { var d = new Date(); return d.getFullYear() + '-' + z2(d.getMonth() + 1) + '-' + z2(d.getDate()); }
   function timeStamp() { var d = new Date(); return z2(d.getHours()) + '-' + z2(d.getMinutes()); }
   function autoOn() { try { return localStorage.getItem(AUTO_KEY) !== 'off'; } catch (e) { return true; } }
@@ -861,7 +874,7 @@
       var blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
       var a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = FILE_NAME + '_' + dayStamp() + '_' + timeStamp() + '.json';
+      a.download = FILE_NAME + ' ' + dayCompact() + '.json';
       document.body.appendChild(a); a.click();
       setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
       if (!auto) setMsg('Archivo descargado ✓', 'ok', true);
