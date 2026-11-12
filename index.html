@@ -66,6 +66,13 @@
     background: var(--sun); color: var(--sun-ink);
     border-radius: 999px; padding: 6px 14px; font-size: 16px; font-weight: 700;
   }
+  .syncbar { display: block; width: calc(100% - 40px); max-width: 600px; margin: 2px auto 0; text-align: left; border: 0; border-radius: 12px;
+    padding: 8px 14px; font: 600 16px system-ui, sans-serif; cursor: pointer; }
+  .syncbar[hidden] { display: none; }
+  .syncbar.ok { background: #E1F1E8; color: #173D2B; }
+  .syncbar.busy { background: #EAF0F6; color: #27425F; }
+  .syncbar.warn { background: #FFF1CC; color: #5A4300; }
+  .syncbar.bad { background: #FBE4DF; color: #5A1E15; }
   main { max-width: 640px; margin: 0 auto; padding: 8px 20px 24px; }
   section[hidden] { display: none; }
   h2 { font-family: var(--serif); font-size: 28px; line-height: 1.2; margin: 12px 0 8px; }
@@ -221,6 +228,7 @@
   <h1>Asturianu Básico A1</h1>
   <span class="chip" id="chip">Lección 1</span>
 </header>
+<button type="button" id="syncbar" class="syncbar" hidden></button>
 
 <main>
   <section id="v-aprender"></section>
@@ -638,10 +646,27 @@
     mods: null, auth: null, db: null, user: null, msg: '', timer: null, initDone: false, loading: null
   };
 
-  function setMsg(m, kind) {
+  function accountEmail() { try { return localStorage.getItem(APP.id + '-cuenta') || ''; } catch (e) { return ''; } }
+  function lastEmail() { try { return localStorage.getItem(APP.id + '-correo') || ''; } catch (e) { return ''; } }
+  function updateSyncBar() {
+    var el = $('syncbar'); if (!el) return;
+    if (!cloud.cfg) { el.hidden = true; return; }
+    var txt, cls;
+    if (cloud.user) {
+      if (cloud.status === 'bad') { txt = '☁ No se pudo sincronizar · toca para ver'; cls = 'bad'; }
+      else if (cloud.status === 'busy') { txt = '☁ Sincronizando…'; cls = 'busy'; }
+      else { txt = '☁ Sincronizado ✓'; cls = 'ok'; }
+    } else if (cloud.offline) { txt = '☁ Sin conexión · se sincronizará al volver'; cls = 'busy'; }
+    else if (!cloud.initDone) { txt = '☁ Conectando…'; cls = 'busy'; }
+    else { txt = '☁ Sin sesión · toca para entrar'; cls = 'warn'; }
+    el.hidden = false; el.textContent = txt; el.className = 'syncbar ' + cls;
+  }
+  function setMsg(m, kind, local) {
     cloud.msg = m;
+    if (!local) cloud.status = kind === 'ok' ? 'ok' : kind === 'bad' ? 'bad' : (m ? 'busy' : '');
     var el = $('s-msg');
     if (el) { el.textContent = m; el.className = 'sync-msg' + (kind ? ' ' + kind : ''); }
+    updateSyncBar();
   }
 
   function fbError(e) {
@@ -674,6 +699,7 @@
     ]).then(function (m) {
       var app = m[0].initializeApp(cloud.cfg);
       cloud.auth = m[1].getAuth(app);
+      try { if (m[1].setPersistence && m[1].browserLocalPersistence) m[1].setPersistence(cloud.auth, m[1].browserLocalPersistence).catch(function () {}); } catch (e) {}
       cloud.db = m[2].getFirestore(app);
       cloud.mods = { app: m[0], auth: m[1], fs: m[2] };
       return cloud.mods;
@@ -740,14 +766,21 @@
   function initCloud() {
     if (!cloud.cfg || cloud.initDone) return;
     loadFirebase().then(function (mods) {
-      cloud.initDone = true;
+      cloud.initDone = true; cloud.offline = false;
       mods.auth.onAuthStateChanged(cloud.auth, function (u) {
         cloud.user = u || null;
+        try {
+          if (u) { localStorage.setItem(APP.id + '-cuenta', u.email || ''); localStorage.setItem(APP.id + '-correo', u.email || ''); }
+          else localStorage.removeItem(APP.id + '-cuenta');
+        } catch (e) {}
         if (u) pull(); else setMsg('');
         if (curTab === 'plan') renderPlan();
+        updateSyncBar();
       });
     }).catch(function () {
+      cloud.offline = true;
       setMsg('Sin conexión: tu progreso se guarda en este móvil y se sincronizará cuando haya internet.');
+      if (curTab === 'plan') renderPlan();
     });
   }
 
@@ -759,18 +792,24 @@
       h += '<p>Sesión iniciada con <b>' + esc(cloud.user.email || '') + '</b>.</p>' +
            '<button class="btn" id="s-now">Sincronizar ahora</button>' +
            '<button class="btn ghost" id="s-logout">Cerrar sesión</button>';
+    } else if (!cloud.initDone && accountEmail()) {
+      h += '<p>Cuenta guardada: <b>' + esc(accountEmail()) + '</b>.</p><p class="muted">' +
+           (cloud.offline ? 'Ahora no hay conexión: tu progreso está a salvo en este móvil y se sincronizará al volver.' : 'Conectando…') + '</p>';
     } else {
-      h += '<p class="muted">Entra con tu correo para guardar tu progreso y usarlo en otros móviles.</p>' +
-           '<input type="email" id="s-email" placeholder="Correo electrónico" autocomplete="email" autocapitalize="none" spellcheck="false">' +
-           '<input type="password" id="s-pass" placeholder="Contraseña (mínimo 6 caracteres)" autocomplete="current-password">' +
-           '<button class="btn" id="s-login">Entrar</button>' +
-           '<button class="btn ghost" id="s-signup">Crear cuenta nueva</button>' +
-           '<button class="btn ghost" id="s-forgot">Olvidé mi contraseña</button>';
+      h += '<p class="muted">Entra con tu correo para guardar tu progreso y usarlo en otros móviles. Solo tendrás que hacerlo una vez en cada dispositivo.</p>' +
+           '<form id="s-form" autocomplete="on">' +
+           '<input type="email" id="s-email" name="email" placeholder="Correo electrónico" value="' + esc(lastEmail()) + '" autocomplete="username" autocapitalize="none" spellcheck="false">' +
+           '<input type="password" id="s-pass" name="password" placeholder="Contraseña (mínimo 6 caracteres)" autocomplete="current-password">' +
+           '<button class="btn" id="s-login" type="submit">Entrar</button>' +
+           '<button class="btn ghost" id="s-signup" type="button">Crear cuenta nueva</button>' +
+           '<button class="btn ghost" id="s-forgot" type="button">Olvidé mi contraseña</button>' +
+           '</form>';
     }
     h += '<h3 style="margin-top:24px">Copia de seguridad en archivo</h3>' +
-         '<p class="muted">Descarga tu progreso en un archivo y cárgalo cuando quieras, en este u otro dispositivo.</p>' +
+         '<p class="muted">El archivo se llama «Asturianu-Basico-A1» con la fecha y la hora. Con la copia automática, al abrir la app se descarga una al día si ya has avanzado.</p>' +
          '<button class="btn ghost" id="b-export">Descargar mi progreso</button>' +
          '<button class="btn ghost" id="b-import">Cargar un archivo de progreso</button>' +
+         '<button class="btn ghost" id="b-auto">Copia automática al abrir: ' + (autoOn() ? 'activada' : 'desactivada') + '</button>' +
          '<input type="file" id="b-file" accept=".json,application/json" hidden>';
     return h + '<p class="sync-msg" id="s-msg">' + esc(cloud.msg || '') + '</p></div>';
   }
@@ -789,7 +828,7 @@
   document.addEventListener('click', function (e) {
     var t = e.target;
     if (!t || !t.closest) return;
-    if (t.closest('#s-login')) { doAuth('login'); return; }
+    if (t.closest('#syncbar')) { show('plan'); return; }
     if (t.closest('#s-signup')) { doAuth('signup'); return; }
     if (t.closest('#s-now')) { pull(); return; }
     if (t.closest('#s-logout')) {
@@ -804,11 +843,17 @@
         .catch(function (err) { setMsg(fbError(err), 'bad'); });
     }
   });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Enter' && e.target && e.target.id === 's-pass') { doAuth('login'); }
+  document.addEventListener('submit', function (e) {
+    if (e.target && e.target.id === 's-form') { e.preventDefault(); doAuth('login'); }
   });
   /* ---------- Copia de seguridad en archivo ---------- */
-  function exportProgress() {
+  var FILE_NAME = 'Asturianu-Basico-A1';
+  var AUTO_KEY = APP.id + '-copia-auto', LAST_KEY = APP.id + '-copia-ultima';
+  function z2(n) { return (n < 10 ? '0' : '') + n; }
+  function dayStamp() { var d = new Date(); return d.getFullYear() + '-' + z2(d.getMonth() + 1) + '-' + z2(d.getDate()); }
+  function timeStamp() { var d = new Date(); return z2(d.getHours()) + '-' + z2(d.getMinutes()); }
+  function autoOn() { try { return localStorage.getItem(AUTO_KEY) !== 'off'; } catch (e) { return true; } }
+  function exportProgress(auto) {
     var data = { app: APP.id, version: 1, exportedAt: new Date().toISOString(),
                  state: { cur: state.cur, best: state.best, passed: state.passed, known: state.known,
                           epoch: state.epoch || 0, updatedAt: state.updatedAt || Date.now() } };
@@ -816,11 +861,23 @@
       var blob = new Blob([JSON.stringify(data)], { type: 'application/json' });
       var a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
-      a.download = APP.id + '-progreso.json';
+      a.download = FILE_NAME + '_' + dayStamp() + '_' + timeStamp() + '.json';
       document.body.appendChild(a); a.click();
       setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 1000);
-      setMsg('Archivo descargado ✓', 'ok');
-    } catch (e) { setMsg('No se pudo crear el archivo.', 'bad'); }
+      if (!auto) setMsg('Archivo descargado ✓', 'ok', true);
+      return true;
+    } catch (e) { if (!auto) setMsg('No se pudo crear el archivo.', 'bad', true); return false; }
+  }
+  /* Al abrir la app: una copia al día, solo si ya hay progreso y la opción está activada */
+  function autoBackup() {
+    try {
+      if (!autoOn()) return;
+      var has = (state.cur || 0) > 0 || Object.keys(state.known || {}).length > 0 || Object.keys(state.passed || {}).length > 0;
+      if (!has) return;
+      var today = dayStamp();
+      if (localStorage.getItem(LAST_KEY) === today) return;
+      if (exportProgress(true)) localStorage.setItem(LAST_KEY, today);
+    } catch (e) {}
   }
   function importProgress(file) {
     if (!file) return;
@@ -828,20 +885,26 @@
     r.onload = function () {
       try {
         var d = JSON.parse(r.result);
-        if (!d || d.app !== APP.id || !d.state) { setMsg('Ese archivo no es de esta app.', 'bad'); return; }
+        if (!d || d.app !== APP.id || !d.state) { setMsg('Ese archivo no es de esta app.', 'bad', true); return; }
         var m = d.state;
         applyState({ cur: m.cur || 0, best: m.best || {}, passed: m.passed || {}, known: m.known || {},
                      epoch: m.epoch || 0, updatedAt: Date.now() });
-        setMsg('Progreso cargado ✓', 'ok');
-      } catch (e) { setMsg('No se pudo leer el archivo.', 'bad'); }
+        setMsg('Progreso cargado ✓', 'ok', true);
+      } catch (e) { setMsg('No se pudo leer el archivo.', 'bad', true); }
     };
     r.readAsText(file);
   }
   document.addEventListener('click', function (e) {
     var t = e.target;
     if (!t || !t.closest) return;
-    if (t.closest('#b-export')) { exportProgress(); return; }
+    if (t.closest('#b-export')) { exportProgress(false); return; }
     if (t.closest('#b-import')) { var f = $('b-file'); if (f) f.click(); return; }
+    var au = t.closest('#b-auto');
+    if (au) {
+      try { localStorage.setItem(AUTO_KEY, autoOn() ? 'off' : 'on'); } catch (err) {}
+      au.textContent = 'Copia automática al abrir: ' + (autoOn() ? 'activada' : 'desactivada');
+      return;
+    }
   });
   document.addEventListener('change', function (e) {
     if (e.target && e.target.id === 'b-file') { importProgress(e.target.files && e.target.files[0]); e.target.value = ''; }
@@ -853,7 +916,9 @@
   /* ---------- Inicio ---------- */
   renderLesson();
   updateChip();
+  updateSyncBar();
   initCloud();
+  setTimeout(autoBackup, 2500);
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', function () {
